@@ -1130,17 +1130,17 @@ function setupShare(cv, fileBase, waMsg, linkMsg){
     const r=await cloudPost({action:"upload",pin:cloud.adminPin||"",name:fileBase,png:cv.toDataURL("image/png"),pdf:bytesToB64(pdfBytes)});
     if(!r||!r.ok){ st.why=(r&&r.error)||"x"; throw 0; } st.png=r.png; st.pdf=r.pdf;
   })().catch(()=>{st.fail=true; if(!st.why) st.why="server";}).finally(()=>{st.busy=false;paint();});
-  imgBtn.onclick=async e=>{
-    try{const blob=await new Promise(r=>cv.toBlob(r,"image/png"));const file=new File([blob],fileBase+".png",{type:"image/png"});
-      if(navigator.canShare&&navigator.canShare({files:[file]})){e.preventDefault();await navigator.share({files:[file],text:waMsg});return}}
-    catch(err){ if(err&&err.name==="AbortError"){e.preventDefault();return} }
+  // تجهيز ملف الصورة مسبقاً (المشاركة لازم تبدأ فوراً عند الضغط)
+  const dataUrlToBytes=u=>{const s=atob(u.split(",")[1]);const a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a};
+  let pngFile=null; try{ pngFile=new File([dataUrlToBytes(cv.toDataURL("image/png"))],fileBase+".png",{type:"image/png"}); }catch(e){}
+  imgBtn.onclick=e=>{
+    try{ if(pngFile&&navigator.canShare&&navigator.canShare({files:[pngFile]})){ e.preventDefault(); navigator.share({files:[pngFile],text:waMsg}).catch(()=>{}); return; } }catch(err){}
     if(st.png) return;
     e.preventDefault(); if(st.busy) toast("لحظات… جاري التجهيز"); else { const a=document.createElement("a");a.href=waLink(waMsg);a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove(); }
   };
-  pdfBtn.onclick=async e=>{
-    try{ const bytes=st.pdfBytes||canvasToPdfBytes(cv); const file=new File([bytes],fileBase+".pdf",{type:"application/pdf"});
-      if(navigator.canShare&&navigator.canShare({files:[file]})){e.preventDefault();await navigator.share({files:[file],text:waMsg});return} }
-    catch(err){ if(err&&err.name==="AbortError"){e.preventDefault();return} }
+  pdfBtn.onclick=e=>{
+    try{ const bytes=st.pdfBytes||(st.pdfBytes=canvasToPdfBytes(cv)); const file=new File([bytes],fileBase+".pdf",{type:"application/pdf"});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){ e.preventDefault(); navigator.share({files:[file],text:waMsg}).catch(()=>{}); return; } }catch(err){}
     if(pdfBtn.getAttribute("href")) return; e.preventDefault(); toast("لحظات… جاري التجهيز");
   };
 }
