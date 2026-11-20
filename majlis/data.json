@@ -1,0 +1,17 @@
+{
+ "version": 2,
+ "updatedAt": 0,
+ "settings": {
+  "fundName": "صندوق الاستراحة",
+  "managerName": "",
+  "pinHash": "",
+  "openingBalance": 0,
+  "dueDay": 27,
+  "nextReceipt": 1,
+  "repo": {"owner": "aalshuaibi1983", "name": "estiraha", "branch": "main", "path": "majlis/data.json"}
+ },
+ "years": {"2026": {"fee": 0, "opening": null, "payments": {}}},
+ "members": [],
+ "expenses": [],
+ "receipts": []
+}
