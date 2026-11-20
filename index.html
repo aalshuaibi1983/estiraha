@@ -220,6 +220,26 @@ button{font:inherit;color:inherit;cursor:pointer}
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:.86rem;font-weight:700;z-index:99;display:none;max-width:90vw;text-align:center}
 .preview-tag{background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold-2);border-radius:14px;padding:9px 12px;font-size:.8rem;font-weight:700;margin:10px 0 4px;text-align:center}
 
+/* ---------- الثيمات ---------- */
+:root{--h1:#17694f;--h2:#0e4a3a;--h3:#0a3529;--hsoft:#cfe5db;--hgold:#e2c27f}
+.hero{background:linear-gradient(150deg,var(--h1) 0%,var(--h2) 55%,var(--h3) 100%)!important}
+.adm-hero{background:linear-gradient(150deg,var(--h1),var(--h2) 60%,var(--h3))!important}
+.hero .lbl,.hero .sub,.ring .t span,.ah-top span,.ah-note,.ah-top b small{color:var(--hsoft)!important}
+.ah-sum b{color:var(--hgold)!important}
+.ah-btn{color:var(--h2)!important}
+/* كحلي وذهبي */
+[data-skin="navy"]{--brand:#1d3557;--brand-2:#2b4c7e;--brand-soft:#e8edf5;--gold:#b08a3e;--gold-2:#d4af61;--gold-soft:#f7f0e1;--bg:#f4f5f8;--surface-2:#f7f8fb;--line:#e1e5ee;--ink:#141c2b;--h1:#2b4c7e;--h2:#1d3557;--h3:#0f1e33;--hsoft:#c9d5ea;--hgold:#e6c77e}
+[data-skin="navy"][data-theme="dark"]{--brand:#7fa6e0;--brand-soft:#17233a;--bg:#0c111b;--surface:#131a28;--surface-2:#182133;--line:#243049;--ink:#e9eef7}
+/* عنابي */
+[data-skin="maroon"]{--brand:#7a1f2b;--brand-2:#9b2c3a;--brand-soft:#f6e9eb;--gold:#a8822f;--gold-2:#c9a24d;--gold-soft:#f8f0e0;--bg:#f7f3f0;--surface-2:#faf6f4;--line:#ebe1dc;--ink:#2a1a1c;--h1:#9b2c3a;--h2:#7a1f2b;--h3:#4a1018;--hsoft:#f0d3d7;--hgold:#e8c77f}
+[data-skin="maroon"][data-theme="dark"]{--brand:#e0828d;--brand-soft:#2e1519;--bg:#140d0e;--surface:#1d1314;--surface-2:#24181a;--line:#3a2629;--ink:#f3e9ea}
+/* بني القهوة والرمل */
+[data-skin="coffee"]{--brand:#6b4428;--brand-2:#8a5a36;--brand-soft:#f3ebe3;--gold:#a87b2f;--gold-2:#cfa14d;--gold-soft:#f8efde;--bg:#f6f1ea;--surface-2:#faf6f0;--line:#e8ddcf;--ink:#2b2017;--h1:#8a5a36;--h2:#6b4428;--h3:#3f2817;--hsoft:#ecdcc9;--hgold:#f0cf86}
+[data-skin="coffee"][data-theme="dark"]{--brand:#d6a77c;--brand-soft:#2b1f16;--bg:#14100c;--surface:#1d1712;--surface-2:#241c16;--line:#3a2e24;--ink:#f3ece4}
+/* أسود وذهبي */
+[data-skin="noir"]{--brand:#a8822f;--brand-2:#c9a24d;--brand-soft:#f6efdf;--gold:#a8822f;--gold-2:#c9a24d;--gold-soft:#f6efdf;--bg:#f2f1ee;--surface-2:#f7f6f3;--line:#e4e1da;--ink:#141414;--h1:#2a2a2a;--h2:#161616;--h3:#050505;--hsoft:#cfc8b8;--hgold:#e2c27f}
+[data-skin="noir"][data-theme="dark"]{--brand:#d6b066;--brand-soft:#26200f;--bg:#0b0b0b;--surface:#151515;--surface-2:#1b1b1b;--line:#2a2a2a;--ink:#efece6}
+
 /* ---------- إضافات البوابة الفعلية ---------- */
 .loading .num{opacity:.55;transition:opacity .3s}
 .live.off{background:var(--ink-3);box-shadow:none;animation:none}
@@ -332,9 +352,16 @@ body.admin .nav-in{grid-template-columns:repeat(5,1fr)}
 div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
 .sync-line{display:flex;align-items:center;justify-content:center;gap:7px;font-size:.78rem;color:var(--ink-3);margin:14px 0 4px}
 .choice{display:grid;gap:8px}
+.choice a{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:right;border:1px solid var(--line);background:var(--surface-2);border-radius:14px;padding:14px;color:var(--ink);text-decoration:none}
+.choice a .ic{grid-row:1/3;width:24px;height:24px;color:var(--brand)}
 .choice button{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:right;border:1px solid var(--line);background:var(--surface-2);border-radius:14px;padding:14px}
 .choice button .ic{grid-row:1/3;width:24px;height:24px;color:var(--brand)}
 .choice b{font-size:.98rem}.choice small{font-size:.76rem;color:var(--ink-3)}
+.paylog{margin-top:12px;background:var(--surface-2);border-radius:14px;padding:10px 12px}
+.pl-h{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--ink-3);margin-bottom:4px}.pl-h .ic{width:14px;height:14px}
+.pl-r{display:grid;grid-template-columns:auto 1fr auto;gap:10px;font-size:.82rem;padding:4px 0;border-top:1px dashed var(--line)}
+.pl-r:first-of-type{border-top:none}.pl-r span:first-child{color:var(--ink-3)}.pl-r b{color:var(--ok)}
+.row.open .paylog{background:var(--surface)}
 .paybar{position:fixed;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:70;max-width:616px;margin:0 auto;display:none;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border-radius:16px;padding:10px 10px 10px 12px;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:up .2s ease-out}
 .paybar.on{display:flex}
 .pb-t{flex:1;min-width:0;font-size:.86rem;line-height:1.35}
@@ -483,7 +510,12 @@ const CLOUD_URL_KEY = "istiraha_cloud_url", CLOUD_REV_KEY = "istiraha_cloud_rev"
 const CLOUD_POLL_MS = 45000;
 
 let appData = {}, appConfig = {}, currentPeriod = "2-2026", isAdmin = false;
-let refDateStr = new Date().toISOString().slice(0, 10);
+function todayISO(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+let refDateStr = todayISO();
+/* سجل الدفعات لكل عضو: m.pays=[{d:تاريخ, a:مبلغ, l:بيان, m:رقم الشهر أو "p" للسابق}] */
+function logPay(m,amount,label,mIdx,date){ amount=Math.round((+amount||0)*100)/100; if(!(amount>0)) return; (m.pays=m.pays||[]).push({d:date||todayISO(),a:amount,l:label,m:mIdx}); }
+function unlogMonth(m,mIdx){ if(m.pays) m.pays=m.pays.filter(p=>p.m!==mIdx); }
+const dShort=d=>(d||"").split("-").reverse().join("/");
 let filter = "all", expCat = "all";
 const openRows = new Set();
 
@@ -619,6 +651,27 @@ function renderHeader(){
   
 }
 
+function payLogHtml(m,n){
+  const L=(m.pays||[]).slice().sort((a,b)=>(b.d||"").localeCompare(a.d||"")).slice(0,n);
+  if(!L.length) return "";
+  return `<div class="paylog"><div class="pl-h">${SV("clock")} آخر الدفعات</div>${L.map(p=>`<div class="pl-r"><span class="num">${dShort(p.d)}</span><span>${esc(p.l)}</span><b class="num">${fmt(p.a)}</b></div>`).join("")}</div>`;
+}
+/* تذكير بالتقويم يوم 25 من كل شهر */
+const ICS_URL="https://aalshuaibi1983.github.io/estiraha/reminder.ics";
+function next25(){const d=new Date();let y=d.getFullYear(),mo=d.getMonth();if(d.getDate()>25){mo++;if(mo>11){mo=0;y++}}return `${y}${String(mo+1).padStart(2,"0")}25`}
+function openCalendar(){
+  const day=next25();
+  const g="https://calendar.google.com/calendar/render?action=TEMPLATE"
+    +"&text="+encodeURIComponent("سداد اشتراك الاستراحة")
+    +"&dates="+day+"T200000/"+day+"T201500&ctz=Asia/Riyadh"
+    +"&recur="+encodeURIComponent("RRULE:FREQ=MONTHLY;BYMONTHDAY=25")
+    +"&details="+encodeURIComponent("تذكير بسداد قسط الشهر لصندوق الاستراحة قبل يوم 27.\nبوابة الأعضاء: "+SITE_LINK);
+  openDlg("تذكير شهري بالتقويم",`<p style="font-size:.88rem;color:var(--ink-2);line-height:1.8;margin-bottom:12px">يضيف تذكير في تقويم جوالك يوم <b>25 من كل شهر</b> الساعة 8 مساءً، قبل نهاية مهلة السداد بيومين.</p>
+    <div class="choice">
+      <a href="${g}" target="_blank" rel="noopener" onclick="setTimeout(closeDlg,300)">${SV("cal")}<b>تقويم Google</b><small>لجوالات أندرويد ولمن يستخدم تقويم Google</small></a>
+      <a href="${ICS_URL}" target="_blank" rel="noopener" onclick="setTimeout(closeDlg,300)">${SV("cal")}<b>تقويم الآيفون</b><small>يفتح الملف ثم اضغط «إضافة الكل»</small></a>
+    </div>`);
+}
 function renderMe(){
   const p=P(), name=LS.get("est_me"), m=p.members.find(x=>x.name===name), box=$("meBox");
   if(!m){
@@ -640,7 +693,8 @@ function renderMe(){
     <div class="trio"><div><span>دفعت</span><b class="num" style="color:var(--ok)">${fmt(a.currPaid+(m.pastPaid||0))}</b></div>
       <div><span>متبقي للفترة</span><b class="num" style="color:var(--wait)">${fmt(a.totalRem)}</b></div>
       <div><span>نسبة السداد</span><b class="num">${a.pct}%</b></div></div>
-    <div class="actions"><button class="btn btn-pri" onclick="openReceipt('${jsq(m.name)}')">${SV("doc")} كشف حسابي</button></div>
+    ${payLogHtml(m,3)}
+    <div class="actions"><button class="btn btn-pri" onclick="openReceipt('${jsq(m.name)}')">${SV("doc")} كشف حسابي</button><button class="btn btn-sec" onclick="openCalendar()">${SV("cal")} تذكير بالتقويم</button></div>
   </div>`;
 }
 
@@ -718,6 +772,7 @@ function renderMembers(){
       <div style="min-width:0"><div class="row-name">${esc(m.name)}</div><div class="segs">${a.states.map(s=>`<i class="${s.state}"></i>`).join("")}</div></div>${amt}</button>
       <div class="row-d">${isAdmin?`<button class="btn btn-pri" style="width:100%;margin-bottom:10px" onclick="formPay(${i})">${SV("wallet")} تسجيل دفعة لـ ${esc(m.name)}</button>`:""}${past}${monthsHtml(a,isAdmin?"edit":"val",i)}
         <div class="trio"><div><span>مدفوع الفترة</span><b class="num" style="color:var(--ok)">${fmt(a.currPaid)}</b></div><div><span>متبقي كلي</span><b class="num" style="color:var(--wait)">${fmt(a.totalRem)}</b></div><div><span>السداد</span><b class="num">${a.pct}%</b></div></div>
+        ${payLogHtml(m,4)}
         <div class="actions"><button class="btn btn-sec" onclick="openReceipt('${jsq(m.name)}')">${SV("doc")} كشف الحساب</button></div>
         ${admin}
       </div></div>`}).join(""):`<div class="empty">لا يوجد أعضاء مطابقون</div>`;
@@ -787,10 +842,12 @@ function formPin(){
 /* ---- الأعضاء ---- */
 function setMonth(mi, idx, val){
   if(!isAdmin) return; const v=parseFloat(val), m=P().members[mi], old=+m.months[idx]||0; m.months[idx]=isNaN(v)?0:v;
-  notePayment(mi,"اشتراك شهر "+monthShort((P().monthNames||[])[idx]),(isNaN(v)?0:v)-old);
+  const lbl="اشتراك شهر "+monthShort((P().monthNames||[])[idx]), nv=isNaN(v)?0:v;
+  if(nv>old) logPay(m,nv-old,lbl,idx); else if(nv===0) unlogMonth(m,idx);
+  notePayment(mi,lbl,nv-old);
   openRows.add(mi); persist(); renderAll();
 }
-function payPast(mi){ if(!isAdmin) return; const m=P().members[mi]; notePayment(mi,"سداد متبقي الفترة السابقة",(m.pastDue||0)-(m.pastPaid||0)); m.pastPaid=m.pastDue; openRows.add(mi); persist(); renderAll(); toast("تم تسجيل سداد المتبقي السابق"); }
+function payPast(mi){ if(!isAdmin) return; const m=P().members[mi]; logPay(m,(m.pastDue||0)-(m.pastPaid||0),"سداد متبقي الفترة السابقة","p"); notePayment(mi,"سداد متبقي الفترة السابقة",(m.pastDue||0)-(m.pastPaid||0)); m.pastPaid=m.pastDue; openRows.add(mi); persist(); renderAll(); toast("تم تسجيل سداد المتبقي السابق"); }
 function formMember(mi){
   const edit=mi!==undefined, m=edit?P().members[mi]:{name:"",target:1500,pastDue:0,pastPaid:0};
   openDlg(edit?"تعديل عضو":"إضافة عضو", formHtml([
@@ -802,6 +859,7 @@ function formMember(mi){
     const name=f.name.value.trim(); if(!name) return fErr("اكتب الاسم");
     if(P().members.some((x,j)=>x.name===name&&j!==mi)) return fErr("الاسم موجود مسبقاً");
     const target=+f.target.value||0, pastDue=+f.pastDue.value||0, pastPaid=Math.min(+f.pastPaid.value||0,pastDue);
+    if(edit&&pastPaid>(m.pastPaid||0)) logPay(m,pastPaid-(m.pastPaid||0),"سداد متبقي الفترة السابقة","p");
     if(edit&&pastPaid>(m.pastPaid||0)) notePayment(mi,"سداد متبقي الفترة السابقة",pastPaid-(m.pastPaid||0));
     if(edit){ const old=m.name; Object.assign(m,{name,target,pastDue,pastPaid}); if(LS.get("est_me")===old) LS.set("est_me",name); openRows.add(mi); }
     else P().members.push({id:P().members.length+1,name,pastDue,pastPaid,months:[0,0,0,0,0,0],target});
@@ -896,7 +954,7 @@ function formNewPeriod(){
 function formRefDate(){
   openDlg("التاريخ المرجعي للحساب", formHtml([fIn("d","التاريخ","date",refDateStr)],"تطبيق",f=>{
     if(f.d.value){refDateStr=f.d.value;closeDlg();renderAll();}
-  })+`<div class="actions"><button class="btn btn-sec" onclick="refDateStr=new Date().toISOString().slice(0,10);closeDlg();renderAll()">اليوم</button></div>`);
+  })+`<div class="actions"><button class="btn btn-sec" onclick="refDateStr=todayISO();closeDlg();renderAll()">اليوم</button></div>`);
 }
 function exportCSV(){
   const p=P(); let csv="﻿#,الاسم,متبقي سابق,تم سداد سابق,"+(p.monthNames||[]).join(",")+",المجموع,متأخر الآن,المتبقي الكلي\n";
@@ -922,7 +980,8 @@ async function openReceipt(name){
   const a=analyzeMember(m,currentPeriod);
   try{await document.fonts.load('700 40px "IBM Plex Sans Arabic"');await document.fonts.load('400 20px "IBM Plex Sans Arabic"');await document.fonts.load('600 20px "IBM Plex Sans Arabic"')}catch(e){}
   const emb=await new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=LOGO_URL||('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(EMBLEM))});
-  const W=1080,H=1500,cv=document.createElement("canvas");cv.width=W;cv.height=H;const x=cv.getContext("2d");
+  const PL=(m.pays||[]).slice().sort((a,b)=>(b.d||"").localeCompare(a.d||"")).slice(0,6), EX=PL.length?110+PL.length*62:0;
+  const W=1080,H=1540+EX,cv=document.createElement("canvas");cv.width=W;cv.height=H;const x=cv.getContext("2d");
   x.direction="rtl";const F=(w,s)=>`${w>700?700:w} ${s}px "IBM Plex Sans Arabic", Tahoma, sans-serif`;
   const rr=(X,Y,w,h,r,fill,stroke)=>{x.beginPath();x.roundRect(X,Y,w,h,r);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.lineWidth=2;x.stroke()}};
   const T=(t,X,Y,font,col,al="right")=>{x.font=font;x.fillStyle=col;x.textAlign=al;x.fillText(t,X,Y)};
@@ -937,7 +996,7 @@ async function openReceipt(name){
   const today=new Date().toLocaleDateString("en-GB");
   T("تاريخ الإصدار",70,100,F(400,24),"#cfe5db","left");x.direction="ltr";T(today,70,140,F(600,30),"#fff","left");x.direction="rtl";
   // بطاقة الاسم
-  rr(60,240,W-120,1190,40,"#ffffff");
+  rr(60,240,W-120,1190+EX,40,"#ffffff");
   const col={ok:"#1f8a62",late:"#c0392b",wait:"#b07a12"}[a.overall], soft={ok:"#e8f3ee",late:"#fbeeec",wait:"#fbf3e2"}[a.overall];
   rr(W-210,290,110,110,30,soft);T(m.name.trim()[0],W-155,368,F(900,56),col,"center");
   T(m.name,W-240,345,F(900,52),"#1b2420");
@@ -953,13 +1012,20 @@ async function openReceipt(name){
   T("الأشهر",W-110,760,F(800,34),"#1b2420");
   const names=p.monthNames||[],cw=(W-220-50)/6;
   a.states.forEach((s,i)=>{const X=W-110-(i+1)*cw-i*10;const c={paid:["#e8f3ee","#1f8a62"],late:["#fbeeec","#c0392b"],grace:["#fbf3e2","#b07a12"],future:["#f5f3ee","#8b948f"]}[s.state];
-    rr(X,790,cw,150,22,c[0]);T(monthShort(names[i]),X+cw/2,840,F(700,26),c[1],"center");T(s.val?fmt(s.val):TXT[s.state],X+cw/2,900,F(700,38),c[1],"center")});
+    rr(X,790,cw,172,22,c[0]);T(monthShort(names[i]),X+cw/2,840,F(700,26),c[1],"center");T(s.val?fmt(s.val):TXT[s.state],X+cw/2,900,F(700,38),c[1],"center");{const lp=(m.pays||[]).filter(q=>q.m===i).slice(-1)[0]; if(lp){x.direction="ltr";T(dShort(lp.d).slice(0,5),X+cw/2,942,F(400,22),c[1],"center");x.direction="rtl"}}});
   // جدول
   const rows=[["اشتراكات مدفوعة هذه الفترة",fmt(a.currPaid),"#1f8a62"],["المسدّد من المتبقي السابق",fmt(m.pastPaid||0),"#1f8a62"],["المتبقي من الفترة السابقة",fmt(a.pastRem),a.pastRem>0?"#c0392b":"#1b2420"],["المتبقي حتى نهاية الفترة",fmt(a.totalRem),"#b07a12"],["نسبة السداد",a.pct+"%","#1b2420",1]];
-  rows.forEach((r,i)=>{const Y=1000+i*74;if(i)x.fillStyle="#e7e2d7",x.fillRect(110,Y-50,W-220,2);T(r[0],W-110,Y,F(500,31),"#4e5a55");
+  rows.forEach((r,i)=>{const Y=1022+i*74;if(i)x.fillStyle="#e7e2d7",x.fillRect(110,Y-50,W-220,2);T(r[0],W-110,Y,F(500,31),"#4e5a55");
     if(r[3]){T(r[1],110,Y,F(900,36),r[2],"left")}else{x.font=F(700,26);const cw2=x.measureText("ر.س").width;T("ر.س",110,Y,F(700,26),r[2],"left");x.direction="ltr";T(r[1],110+cw2+12,Y,F(900,36),r[2],"left");x.direction="rtl"}});
-  T("الاستحقاق يوم 27 من كل شهر ميلادي",W/2,1395,F(500,26),"#8b948f","center");
-  drawSiteLink(x,cv,1474);
+  if(PL.length){
+    T("سجل الدفعات",W-110,1405,F(700,32),"#1b2420");
+    PL.forEach((q,k)=>{const Y=1465+k*62; if(k){x.fillStyle="#e7e2d7";x.fillRect(110,Y-42,W-220,2)}
+      x.direction="ltr";T(dShort(q.d),W-110,Y,F(600,28),"#4e5a55","right");x.direction="rtl";
+      T(q.l,W-330,Y,F(400,28),"#4e5a55");
+      x.font=F(700,24);const cw3=x.measureText("ر.س").width;T("ر.س",110,Y,F(700,24),"#1f8a62","left");x.direction="ltr";T(fmt(q.a),110+cw3+10,Y,F(700,32),"#1f8a62","left");x.direction="rtl";});
+  }
+  T("الاستحقاق يوم 27 من كل شهر ميلادي",W/2,1395+EX,F(500,26),"#8b948f","center");
+  drawSiteLink(x,cv,1508+EX);
   const url=cv.toDataURL("image/png");
   document.getElementById("rcImg").src=url;
   document.getElementById("rcTitle").textContent="كشف حساب — "+m.name;
@@ -1048,9 +1114,9 @@ function allocate(m, amount){
   const fee=(m.target||0)/6, names=P().monthNames||[];
   let left=amount; const items=[]; const months=[...(m.months||[0,0,0,0,0,0])].map(v=>+v||0); let pastPaid=+m.pastPaid||0;
   const pastRem=Math.max(0,(m.pastDue||0)-pastPaid);
-  if(pastRem>0&&left>0){const x=Math.min(left,pastRem);pastPaid+=x;left-=x;items.push({label:"سداد متبقي الفترة السابقة",amount:x});}
-  for(let i=0;i<months.length&&left>0;i++){const need=Math.max(0,fee-months[i]); if(need<=0) continue; const x=Math.min(left,need); months[i]+=x; left-=x; items.push({label:"اشتراك شهر "+monthShort(names[i]),amount:x});}
-  let extra=0; if(left>0){ extra=left; months[months.length-1]+=left; items.push({label:"دفعة مقدمة (زيادة)",amount:left}); left=0; }
+  if(pastRem>0&&left>0){const x=Math.min(left,pastRem);pastPaid+=x;left-=x;items.push({label:"سداد متبقي الفترة السابقة",amount:x,mi:"p"});}
+  for(let i=0;i<months.length&&left>0;i++){const need=Math.max(0,fee-months[i]); if(need<=0) continue; const x=Math.min(left,need); months[i]+=x; left-=x; items.push({label:"اشتراك شهر "+monthShort(names[i]),amount:x,mi:i});}
+  let extra=0; if(left>0){ extra=left; months[months.length-1]+=left; items.push({label:"دفعة مقدمة (زيادة)",amount:left,mi:months.length-1}); left=0; }
   return {items,months,pastPaid,extra};
 }
 function formPay(mi){
@@ -1073,7 +1139,7 @@ function formPay(mi){
     `<label class="chk"><input type="checkbox" name="rc" checked> إصدار إيصال بعد الحفظ</label>`
   ],"حفظ الدفعة",f=>{
     const amount=parseFloat(f.amount.value); if(!(amount>0)) return fErr("اكتب المبلغ");
-    const r=allocate(m,amount); m.months=r.months; m.pastPaid=r.pastPaid;
+    const r=allocate(m,amount); m.months=r.months; m.pastPaid=r.pastPaid; r.items.forEach(it=>logPay(m,it.amount,it.label,it.mi,f.date.value||todayISO()));
     openRows.add(mi); persist(); closeDlg(); renderAll(); toast(`تم تسجيل ${fmt(amount)} ر.س لـ ${m.name}`);
     if(f.rc.checked) setTimeout(()=>openPayReceipt(m.name,r.items,f.date.value),150);
   }));
@@ -1194,7 +1260,9 @@ function renderCollect(){
   $("colList").innerHTML=rows||`<div class="empty">لا يوجد</div>`;
 }
 function collectSet(mi,val){
-  const m=P().members[mi]; m.months[collectIdx]=val; persist(); renderAll(); renderCollect();
+  const m=P().members[mi], old=+m.months[collectIdx]||0; m.months[collectIdx]=val;
+  if(val===0) unlogMonth(m,collectIdx); else if(val>old) logPay(m,val-old,"اشتراك شهر "+monthShort((P().monthNames||[])[collectIdx]),collectIdx);
+  persist(); renderAll(); renderCollect();
   if(val>0) toast(`تم: ${m.name} — ${monthShort((P().monthNames||[])[collectIdx])}`);
 }
 const fmtIn=n=>String(Math.round((+n||0)*100)/100);
@@ -1202,12 +1270,14 @@ function collectAdd(mi){
   const m=P().members[mi], inp=$("ca"+mi), amt=parseFloat(inp&&inp.value);
   if(!(amt>0)) return toast("اكتب المبلغ");
   const v=+m.months[collectIdx]||0; m.months[collectIdx]=Math.round((v+amt)*100)/100;
+  logPay(m,amt,"اشتراك شهر "+monthShort((P().monthNames||[])[collectIdx]),collectIdx);
   persist(); renderAll(); renderCollect();
   toast(`تم: ${m.name} — ${fmt(amt)} ر.س (${monthShort((P().monthNames||[])[collectIdx])})`);
 }
 function collectReceipt(mi){
   const m=P().members[mi], v=+m.months[collectIdx]||0;
-  openPayReceipt(m.name,[{label:"اشتراك شهر "+monthShort((P().monthNames||[])[collectIdx]),amount:v}],refDateStr);
+  const last=(m.pays||[]).filter(p=>p.m===collectIdx).slice(-1)[0];
+  openPayReceipt(m.name,[{label:"اشتراك شهر "+monthShort((P().monthNames||[])[collectIdx]),amount:v}],last?last.d:todayISO());
 }
 
 
@@ -1317,6 +1387,9 @@ function renderAdmin(){
   <div class="card set-list">
     <button onclick="formRefDate()">${SV("cal")}<span>التاريخ المرجعي</span><small class="num">${refDateStr}</small></button>
     <button onclick="formPin()">${SV("key")}<span>تغيير رمز المدير</span></button>
+    <button onclick="downloadBackup()">${SV("down")}<span>تنزيل نسخة احتياطية</span><small>كل الفترات</small></button>
+    <button onclick="$('restoreIn').click()">${SV("refresh")}<span>استرجاع من نسخة احتياطية</span></button>
+    <input type="file" id="restoreIn" accept=".json,application/json" style="display:none" onchange="restoreBackup(this)">
     <button onclick="exportCSV()">${SV("down")}<span>تصدير كشف CSV</span></button>
     <button onclick="logout();go('me')" class="danger">${SV("out")}<span>خروج من وضع المدير</span></button>
   </div>
@@ -1335,6 +1408,36 @@ function openPeriodTools(){
      <button onclick="closeDlg();askCarry()">${SV("next")}<span>ترحيل الأرصدة للفترة التالية</span></button>
      <button onclick="closeDlg();formNewPeriod()">${SV("plus")}<span>إنشاء فترة جديدة</span></button>
    </div>`);
+}
+
+/* ======================= النسخ الاحتياطي ======================= */
+function downloadBackup(){
+  const now=new Date(), stamp=`${todayISO()}_${String(now.getHours()).padStart(2,"0")}${String(now.getMinutes()).padStart(2,"0")}`;
+  const cfg=Object.assign({},appConfig); delete cfg.pin;
+  const json=JSON.stringify({app:"estiraha",version:1,exportedAt:now.toISOString(),data:appData,config:cfg},null,1);
+  const name=`نسخة-احتياطية-الاستراحة-${stamp}.json`, blob=new Blob([json],{type:"application/json"});
+  try{
+    const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+    toast("تم تنزيل النسخة الاحتياطية");
+  }catch(e){
+    try{ const f=new File([blob],name,{type:"application/json"}); if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]});return} }catch(_){}
+    toast("المتصفح منع التنزيل — استخدم رابط المدير على GitHub");
+  }
+}
+function restoreBackup(inp){
+  const f=inp.files&&inp.files[0]; inp.value=""; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    let b; try{ b=JSON.parse(rd.result); }catch(e){ return toast("الملف غير صالح"); }
+    if(!b||b.app!=="estiraha"||!b.data||!Object.keys(b.data).length) return toast("هذا ليس ملف نسخة احتياطية للاستراحة");
+    const when=(b.exportedAt||"").slice(0,16).replace("T"," ");
+    confirmDlg(`استرجاع النسخة المحفوظة بتاريخ <b>${esc(when)}</b>؟<br>ستحل محل البيانات الحالية لكل الأعضاء. يُفضّل تنزيل نسخة من الوضع الحالي قبلها.`,"استرجاع",()=>{
+      appData=b.data; normalize(appData); appConfig=Object.assign({},appConfig,b.config||{});
+      if(!appData[currentPeriod]) currentPeriod=appConfig.defaultPeriod||Object.keys(appData)[0];
+      openRows.clear(); persist(); renderAll(); toast("تم استرجاع النسخة الاحتياطية");
+    });
+  };
+  rd.readAsText(f);
 }
 
 function closeRc(){$("rcModal").classList.remove("open")}
