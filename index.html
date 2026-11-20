@@ -662,11 +662,11 @@ function next25(){const d=new Date();let y=d.getFullYear(),mo=d.getMonth();if(d.
 function openCalendar(){
   const day=next25();
   const g="https://calendar.google.com/calendar/render?action=TEMPLATE"
-    +"&text="+encodeURIComponent("سداد اشتراك الاستراحة")
+    +"&text="+encodeURIComponent("تذكير: سداد اشتراك الاستراحة — آخر موعد يوم 27")
     +"&dates="+day+"T200000/"+day+"T201500&ctz=Asia/Riyadh"
     +"&recur="+encodeURIComponent("RRULE:FREQ=MONTHLY;BYMONTHDAY=25")
-    +"&details="+encodeURIComponent("تذكير بسداد قسط الشهر لصندوق الاستراحة قبل يوم 27.\nبوابة الأعضاء: "+SITE_LINK);
-  openDlg("تذكير شهري بالتقويم",`<p style="font-size:.88rem;color:var(--ink-2);line-height:1.8;margin-bottom:12px">يضيف تذكير في تقويم جوالك يوم <b>25 من كل شهر</b> الساعة 8 مساءً، قبل نهاية مهلة السداد بيومين.</p>
+    +"&details="+encodeURIComponent("آخر موعد لسداد قسط الشهر لصندوق الاستراحة هو يوم 27 من هذا الشهر (بعد يومين).\nبوابة الأعضاء: "+SITE_LINK);
+  openDlg("تذكير شهري بالتقويم",`<p style="font-size:.88rem;color:var(--ink-2);line-height:1.8;margin-bottom:12px">يضيف تذكير في تقويم جوالك يوم <b>25 من كل شهر</b> الساعة 8 مساءً، ينبّهك إن <b>آخر موعد للسداد يوم 27</b>.</p>
     <div class="choice">
       <a href="${g}" target="_blank" rel="noopener" onclick="setTimeout(closeDlg,300)">${SV("cal")}<b>تقويم Google</b><small>لجوالات أندرويد ولمن يستخدم تقويم Google</small></a>
       <a href="${ICS_URL}" target="_blank" rel="noopener" onclick="setTimeout(closeDlg,300)">${SV("cal")}<b>تقويم الآيفون</b><small>يفتح الملف ثم اضغط «إضافة الكل»</small></a>
@@ -1012,7 +1012,7 @@ async function openReceipt(name){
   T("الأشهر",W-110,760,F(800,34),"#1b2420");
   const names=p.monthNames||[],cw=(W-220-50)/6;
   a.states.forEach((s,i)=>{const X=W-110-(i+1)*cw-i*10;const c={paid:["#e8f3ee","#1f8a62"],late:["#fbeeec","#c0392b"],grace:["#fbf3e2","#b07a12"],future:["#f5f3ee","#8b948f"]}[s.state];
-    rr(X,790,cw,172,22,c[0]);T(monthShort(names[i]),X+cw/2,840,F(700,26),c[1],"center");T(s.val?fmt(s.val):TXT[s.state],X+cw/2,900,F(700,38),c[1],"center");{const lp=(m.pays||[]).filter(q=>q.m===i).slice(-1)[0]; if(lp){x.direction="ltr";T(dShort(lp.d).slice(0,5),X+cw/2,942,F(400,22),c[1],"center");x.direction="rtl"}}});
+    rr(X,790,cw,172,22,c[0]);T(monthShort(names[i]),X+cw/2,840,F(700,26),c[1],"center");T(s.val?fmt(s.val):TXT[s.state],X+cw/2,900,F(700,38),c[1],"center");{const lp=(m.pays||[]).filter(q=>q.m===i).slice(-1)[0]; if(lp){x.direction="ltr";T(dShort(lp.d).slice(0,5),X+cw/2,942,F(400,22),c[1],"center");x.direction="rtl"} else if(s.val>0){T("مسدد سابقاً",X+cw/2,942,F(400,20),c[1],"center")}}});
   // جدول
   const rows=[["اشتراكات مدفوعة هذه الفترة",fmt(a.currPaid),"#1f8a62"],["المسدّد من المتبقي السابق",fmt(m.pastPaid||0),"#1f8a62"],["المتبقي من الفترة السابقة",fmt(a.pastRem),a.pastRem>0?"#c0392b":"#1b2420"],["المتبقي حتى نهاية الفترة",fmt(a.totalRem),"#b07a12"],["نسبة السداد",a.pct+"%","#1b2420",1]];
   rows.forEach((r,i)=>{const Y=1022+i*74;if(i)x.fillStyle="#e7e2d7",x.fillRect(110,Y-50,W-220,2);T(r[0],W-110,Y,F(500,31),"#4e5a55");

@@ -19,14 +19,17 @@ DTSTAMP:20261121T000000Z
 DTSTART;TZID=Asia/Riyadh:20261125T200000
 DTEND;TZID=Asia/Riyadh:20261125T201500
 RRULE:FREQ=MONTHLY;BYMONTHDAY=25
-SUMMARY:سداد اشتراك الاستراحة
-DESCRIPTION:تذكير بسداد قسط الشهر لصندوق الاس
- تراحة قبل يوم 27.\nبوابة الأعضاء: https://sites.g
- oogle.com/view/estiraha/full-page-embed
+SUMMARY:تذكير: سداد اشتراك الاستراحة — آخر 
+ موعد يوم 27
+DESCRIPTION:آخر موعد لسداد قسط الشهر لصندوق ا
+ لاستراحة هو يوم 27 من هذا الشهر (بعد يومي
+ ن).\nبوابة الأعضاء: https://sites.google.com/view/estiraha/
+ full-page-embed
 URL:https://sites.google.com/view/estiraha/full-page-embed
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:سداد اشتراك الاستراحة
+DESCRIPTION:آخر موعد لسداد اشتراك الاستراحة ي
+ وم 27
 TRIGGER:PT0M
 END:VALARM
 END:VEVENT
