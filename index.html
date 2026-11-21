@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0e4a3a">
+<meta name="theme-color" content="#40271a">
 <title>صندوق الاستراحة — المدير</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -239,7 +239,70 @@ button{font:inherit;color:inherit;cursor:pointer}
 /* أسود وذهبي */
 [data-skin="noir"]{--brand:#a8822f;--brand-2:#c9a24d;--brand-soft:#f6efdf;--gold:#a8822f;--gold-2:#c9a24d;--gold-soft:#f6efdf;--bg:#f2f1ee;--surface-2:#f7f6f3;--line:#e4e1da;--ink:#141414;--h1:#2a2a2a;--h2:#161616;--h3:#050505;--hsoft:#cfc8b8;--hgold:#e2c27f}
 [data-skin="noir"][data-theme="dark"]{--brand:#d6b066;--brand-soft:#26200f;--bg:#0b0b0b;--surface:#151515;--surface-2:#1b1b1b;--line:#2a2a2a;--ink:#efece6}
+/* تراثي — ألوان السدو والطين النجدي */
+[data-skin="heritage"]{--brand:#8e2a1c;--brand-2:#a8402a;--brand-soft:#f3e3d3;--gold:#9a6a1f;--gold-2:#c8923a;--gold-soft:#f6e8cf;--bg:#efe5d3;--surface:#fbf6ec;--surface-2:#f5ecdc;--line:#e0d0b4;--ink:#2b1d16;--ink-2:#5b4637;--ink-3:#8f7a66;--h1:#a8402a;--h2:#7c2416;--h3:#3b1a12;--hsoft:#f1d9c3;--hgold:#f0c46a;--fut:#ddcdb2}
+[data-skin="heritage"][data-theme="dark"]{--brand:#e08a6a;--brand-soft:#2e1a14;--bg:#15100c;--surface:#1f1712;--surface-2:#271d17;--line:#3d2e23;--ink:#f3e8da;--ink-2:#cdb9a3;--ink-3:#9a8571}
+[data-skin="heritage"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 4l26 26-26 26L4 30z' fill='none' stroke='%23c8a878' stroke-width='.8' opacity='.35'/%3E%3C/svg%3E")}
+[data-skin="heritage"] .sadu{display:block}
+.sadu{display:none;height:14px;border-radius:4px;margin:0 0 10px;background:
+ url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14'%3E%3Crect width='28' height='14' fill='%232b1d16'/%3E%3Cpath d='M0 14L7 7 14 14z' fill='%23a8402a'/%3E%3Cpath d='M14 14L21 7 28 14z' fill='%23efe5d3'/%3E%3Cpath d='M0 0L7 7 14 0z' fill='%23efe5d3'/%3E%3Cpath d='M14 0L21 7 28 0z' fill='%23a8402a'/%3E%3Ccircle cx='7' cy='7' r='1.6' fill='%23c8923a'/%3E%3Ccircle cx='21' cy='7' r='1.6' fill='%23c8923a'/%3E%3C/svg%3E") repeat-x}
+[data-skin="heritage"] .top{border-bottom:4px solid transparent;border-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='4'%3E%3Crect width='8' height='4' fill='%23a8402a'/%3E%3Crect x='8' width='8' height='4' fill='%232b1d16'/%3E%3C/svg%3E") 0 0 4 0 repeat}
+[data-skin="heritage"] .hero,[data-skin="heritage"] .adm-hero{border:2px solid #c8923a;box-shadow:0 0 0 4px var(--bg),0 0 0 5px #c8923a55,0 12px 28px rgba(60,20,10,.3)}
+[data-skin="heritage"] .hero::before,[data-skin="heritage"] .adm-hero::before{content:"";position:absolute;left:0;right:0;bottom:0;height:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12'%3E%3Cpath d='M0 12L6 6 12 12zM12 12L18 6 24 12z' fill='%23f0c46a' opacity='.55'/%3E%3Cpath d='M6 6L12 0 18 6z' fill='%232b1d16' opacity='.5'/%3E%3C/svg%3E") repeat-x}
+[data-skin="heritage"] .adm-hero{position:relative;overflow:hidden;padding-bottom:22px}
+[data-skin="heritage"] .card,[data-skin="heritage"] .tile{border-color:#dcc6a0}
+[data-skin="heritage"] .me{border-top:6px solid transparent;border-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='6'%3E%3Crect width='24' height='6' fill='%232b1d16'/%3E%3Cpath d='M0 6L6 0 12 6z' fill='%23a8402a'/%3E%3Cpath d='M12 6L18 0 24 6z' fill='%23c8923a'/%3E%3C/svg%3E") 6 0 0 0 repeat}
+[data-skin="heritage"] .section-title h2{display:flex;align-items:center;gap:7px}
+[data-skin="heritage"] .section-title h2::before{content:"";width:12px;height:12px;background:var(--brand);transform:rotate(45deg);border:2px solid var(--gold-2)}
+[data-skin="heritage"] .nav{border-top:3px solid #a8402a}
+/* نجدي — طين وشُرفات وأبواب ملوّنة */
+[data-skin="najdi"]{--brand:#1f5f6b;--brand-2:#2c7a87;--brand-soft:#e2eeee;--gold:#a0662a;--gold-2:#cf8f45;--gold-soft:#f5e7d3;--bg:#ecdcc4;--surface:#fbf5ea;--surface-2:#f4ead9;--line:#dcc7a6;--ink:#3a2618;--ink-2:#634a36;--ink-3:#947b63;--h1:#b8743f;--h2:#9a5a2c;--h3:#6b3a19;--hsoft:#f6e2c8;--hgold:#fff1d6;--fut:#e2d0b2}
+[data-skin="najdi"][data-theme="dark"]{--brand:#6fc0cc;--brand-soft:#15292c;--bg:#17110c;--surface:#211913;--surface-2:#291f18;--line:#3f3024;--ink:#f4e9da;--ink-2:#cfb89e;--ink-3:#9d8770}
+[data-skin="najdi"] body{background-image:linear-gradient(rgba(255,255,255,.0),rgba(255,255,255,0)),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%23c9a77d' opacity='.18'%3E%3Ccircle cx='20' cy='30' r='1.2'/%3E%3Ccircle cx='80' cy='14' r='1'/%3E%3Ccircle cx='60' cy='70' r='1.4'/%3E%3Ccircle cx='100' cy='96' r='1'/%3E%3Ccircle cx='30' cy='100' r='1.1'/%3E%3C/g%3E%3C/svg%3E")}
+[data-skin="najdi"] .top{border-bottom:none}
+[data-skin="najdi"] .top::after{content:"";position:absolute;left:0;right:0;bottom:-11px;height:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='12'%3E%3Cpath d='M0 0H22V2L16 2 11 11 6 2H0z' fill='%23b8743f'/%3E%3C/svg%3E") repeat-x;pointer-events:none}
+[data-skin="najdi"] .top{position:sticky}
+[data-skin="najdi"] .hero,[data-skin="najdi"] .adm-hero{position:relative;overflow:hidden;padding-top:28px;border-radius:18px}
+[data-skin="najdi"] .hero::before,[data-skin="najdi"] .adm-hero::before{content:"";position:absolute;left:0;right:0;top:0;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='16'%3E%3Cpath d='M0 0H24V4L18 4 12 15 6 4H0z' fill='%23fbf5ea' opacity='.9'/%3E%3Cpath d='M12 6L14 10 12 14 10 10z' fill='%231f5f6b'/%3E%3C/svg%3E") repeat-x}
+[data-skin="najdi"] .hero::after{opacity:.0}
+[data-skin="najdi"] .me{position:relative;border:2px solid #1f5f6b;box-shadow:inset 0 0 0 5px var(--surface),inset 0 0 0 6px #cf8f45,0 8px 22px rgba(80,45,15,.12)}
+[data-skin="najdi"] .card,[data-skin="najdi"] .tile{border-color:#d9c19c}
+[data-skin="najdi"] .section-title h2{display:flex;align-items:center;gap:8px}
+[data-skin="najdi"] .section-title h2::before{content:"";width:16px;height:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10'%3E%3Cpath d='M0 0H16L8 10z' fill='%23b8743f'/%3E%3Cpath d='M5 0H11L8 4z' fill='%231f5f6b'/%3E%3C/svg%3E") no-repeat}
+[data-skin="najdi"] .nav{border-top:none;background:#fbf5ea}
+[data-skin="najdi"][data-theme="dark"] .nav{background:#211913}
+[data-skin="najdi"] .nav::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='10'%3E%3Cpath d='M0 10L10 0 20 10z' fill='%23b8743f'/%3E%3C/svg%3E") repeat-x}
+[data-skin="najdi"] .nb.on{background:#1f5f6b;color:#fff}
+[data-skin="najdi"] .btn-pri{background:#1f5f6b}
+[data-skin="najdi"] .av{border-radius:50% 50% 12px 12px}
+/* الأحساء — واحة النخيل والتمر وزري البشت الحساوي */
+[data-skin="ahsa"]{--brand:#2f5d34;--brand-2:#3f7a45;--brand-soft:#e6efe0;--gold:#9c7420;--gold-2:#c99a32;--gold-soft:#f6ecd2;--bg:#f1ead9;--surface:#fdf9f0;--surface-2:#f6efe0;--line:#e2d5b8;--ink:#2a2116;--ink-2:#5a4a35;--ink-3:#8d7c63;--h1:#5a3a22;--h2:#40271a;--h3:#24150d;--hsoft:#ecd9bd;--hgold:#e8bf5c;--fut:#e4d8bd}
+[data-skin="ahsa"][data-theme="dark"]{--brand:#8fc58f;--brand-soft:#18261a;--bg:#120f0a;--surface:#1b1610;--surface-2:#221c14;--line:#3a3022;--ink:#f3ecdf;--ink-2:#cdbfa6;--ink-3:#978a72}
+/* نقشة سعف خفيفة في الخلفية */
+[data-skin="ahsa"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg fill='none' stroke='%23b9a77e' stroke-width='.9' opacity='.28' stroke-linecap='round'%3E%3Cpath d='M45 20v50'/%3E%3Cpath d='M45 28l-9-5M45 36l-11-5M45 44l-12-5M45 52l-11-5M45 60l-9-5M45 28l9-5M45 36l11-5M45 44l12-5M45 52l11-5M45 60l9-5'/%3E%3C/g%3E%3C/svg%3E")}
+/* شريط زري البشت الذهبي */
+[data-skin="ahsa"] .top{border-bottom:5px solid transparent;border-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='5'%3E%3Crect width='20' height='5' fill='%23c99a32'/%3E%3Cpath d='M0 2.5L5 0 10 2.5 5 5zM10 2.5L15 0 20 2.5 15 5z' fill='%23e8bf5c'/%3E%3Ccircle cx='5' cy='2.5' r='.9' fill='%2340271a'/%3E%3Ccircle cx='15' cy='2.5' r='.9' fill='%2340271a'/%3E%3C/svg%3E") 0 0 5 0 repeat}
+/* بطاقة الرصيد: لون التمر مع نخيل الواحة */
+[data-skin="ahsa"] .hero,[data-skin="ahsa"] .adm-hero{position:relative;overflow:hidden;border:1.5px solid #c99a32;padding-bottom:40px}
+[data-skin="ahsa"] .hero::after,[data-skin="ahsa"] .adm-hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46px;opacity:1;top:auto;width:auto;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='46'%3E%3Cg fill='%232f5d34' opacity='.85'%3E%3Cpath d='M18 46V20h2v26z'/%3E%3Cpath d='M19 20c-6-6-13-6-17-3 5-1 10 0 17 3zM19 20c6-6 13-6 17-3-5-1-10 0-17 3zM19 20c-4-7-9-10-14-10 5 2 9 5 14 10zM19 20c4-7 9-10 14-10-5 2-9 5-14 10zM19 20c0-6 2-10 5-12-2 4-3 8-5 12z'/%3E%3Cpath d='M78 46V12h2v34z'/%3E%3Cpath d='M79 12c-7-7-15-7-20-3 6-1 12 0 20 3zM79 12c7-7 15-7 20-3-6-1-12 0-20 3zM79 12c-5-8-11-11-17-11 6 2 11 6 17 11zM79 12c5-8 11-11 17-11-6 2-11 6-17 11z'/%3E%3C/g%3E%3Crect y='42' width='120' height='4' fill='%23c99a32' opacity='.8'/%3E%3C/svg%3E") repeat-x bottom}
+[data-skin="ahsa"] .ah-btn{position:relative;z-index:1}
+/* بطاقة العضو بحافة زري */
+[data-skin="ahsa"] .me{border:1.5px solid #c99a32;box-shadow:inset 0 0 0 4px var(--surface),inset 0 0 0 5px #e8bf5c88,0 8px 22px rgba(70,45,15,.12)}
+[data-skin="ahsa"] .card,[data-skin="ahsa"] .tile{border-color:#e0cfa6}
+[data-skin="ahsa"] .section-title h2{display:flex;align-items:center;gap:7px}
+[data-skin="ahsa"] .section-title h2::before{content:"";width:14px;height:18px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='18'%3E%3Cellipse cx='7' cy='9' rx='5' ry='7.5' fill='%235a3a22'/%3E%3Cpath d='M7 2.5v13' stroke='%23c99a32' stroke-width='1'/%3E%3C/svg%3E") no-repeat}
+[data-skin="ahsa"] .nav{border-top:3px solid #c99a32}
+[data-skin="ahsa"] .nb.on{background:#2f5d34;color:#fff}
+[data-skin="ahsa"][data-theme="dark"] .nb.on{color:#0f1a10;background:#8fc58f}
+[data-skin="ahsa"] .ring svg circle:last-child{stroke:#e8bf5c}
 
+/* ---------- تخطيط ثابت: رأس فوق، شريط تنقل تحت، والمحتوى يتمرر بينهم ---------- */
+html,body{height:100%}
+body{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;padding-bottom:0!important}
+.top{position:relative!important;flex:none}
+#scroller{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#scroller .wrap{padding-bottom:24px}
+.nav{position:relative!important;flex:none;bottom:auto}
 /* ---------- إضافات البوابة الفعلية ---------- */
 .loading .num{opacity:.55;transition:opacity .3s}
 .live.off{background:var(--ink-3);box-shadow:none;animation:none}
@@ -357,6 +420,12 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
 .choice button{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:right;border:1px solid var(--line);background:var(--surface-2);border-radius:14px;padding:14px}
 .choice button .ic{grid-row:1/3;width:24px;height:24px;color:var(--brand)}
 .choice b{font-size:.98rem}.choice small{font-size:.76rem;color:var(--ink-3)}
+.skins{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.skins button{display:flex;flex-direction:column;align-items:center;gap:6px;border:1.5px solid var(--line);background:var(--surface-2);border-radius:16px;padding:12px 8px}
+.skins button.on{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.skins .sw{width:54px;height:54px;border-radius:50%;position:relative;box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)}
+.skins .sw i{position:absolute;inset:auto 0 -2px auto;width:18px;height:18px;border-radius:50%;border:2px solid var(--surface)}
+.skins b{font-size:.88rem}.skins small{font-size:.7rem;color:var(--gold)}
 .paylog{margin-top:12px;background:var(--surface-2);border-radius:14px;padding:10px 12px}
 .pl-h{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--ink-3);margin-bottom:4px}.pl-h .ic{width:14px;height:14px}
 .pl-r{display:grid;grid-template-columns:auto 1fr auto;gap:10px;font-size:.82rem;padding:4px 0;border-top:1px dashed var(--line)}
@@ -431,6 +500,7 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
   <div class="menu-sheet" id="menuSheet"></div>
 </div>
 
+<div id="scroller">
 <main class="wrap loading" id="main">
   <section class="view on" id="v-me">
     <div id="meBox"></div>
@@ -462,6 +532,7 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
     <div id="fundBox"></div>
   </section>
 </main>
+</div>
 
 <nav class="nav">
   <div class="nav-in">
@@ -601,10 +672,19 @@ function catOf(desc){for(const c of CATS)if(c[3].test(desc||""))return c;return[
 function go(v){
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));
   document.querySelectorAll(".nb").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
-  window.scrollTo({top:0,behavior:"instant"});
+  $("scroller").scrollTop=0;
 }
 function toast(t){const e=$("toast");e.textContent=t;e.style.display="block";clearTimeout(e._t);e._t=setTimeout(()=>e.style.display="none",2800)}
-function applyTheme(){const t=LS.get("est_theme");const dark=t?t==="dark":(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);
+const SKINS=[["ahsa","الأحساء","#40271a","#2f5d34","#c99a32"],["green","الأخضر الملكي","#0e4a3a","#17694f","#c9a24d"],["najdi","النجدي","#9a5a2c","#1f5f6b","#cf8f45"],["heritage","السدو","#7c2416","#2b1d16","#c8923a"],["navy","الكحلي والذهبي","#1d3557","#2b4c7e","#d4af61"],["noir","الأسود والذهبي","#161616","#2a2a2a","#c9a24d"]];
+function curSkin(){const s=LS.get("est_skin");return SKINS.some(k=>k[0]===s)?s:"ahsa"}
+function setSkin(s){LS.set("est_skin",s);applyTheme();closeDlg();renderAll();toast("تم تغيير الثيم")}
+function openSkins(){
+  const c=curSkin();
+  openDlg("اختر ثيم البوابة",`<div class="skins">${SKINS.map(([k,n,a,b,g])=>`<button class="${k===c?"on":""}" onclick="setSkin('${k}')"><span class="sw" style="background:linear-gradient(135deg,${a} 0 50%,${b} 50% 100%)"><i style="background:${g}"></i></span><b>${n}</b>${k==="ahsa"?"<small>الافتراضي</small>":""}</button>`).join("")}</div>
+  <p class="hint" style="margin-top:10px">الثيم يتغير عندك أنت بس، وما يأثر على باقي الأعضاء</p>`);
+}
+function HC(n,f){try{const v=getComputedStyle(document.documentElement).getPropertyValue(n).trim();return v||f}catch(e){return f}}
+function applyTheme(){document.documentElement.dataset.skin=curSkin();const t=LS.get("est_theme");const dark=t?t==="dark":(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);
   document.documentElement.dataset.theme=dark?"dark":"light";}
 function toggleTheme(){const dark=document.documentElement.dataset.theme==="dark";LS.set("est_theme",dark?"light":"dark");applyTheme();toggleMenu(false)}
 function setMe(n){LS.set("est_me",n);renderMe()}
@@ -615,7 +695,8 @@ function toggleMenu(o){
     const it=(ic,label,fn,extra="")=>`<button class="menu-item" onclick="toggleMenu(false);${fn}">${SV(ic)} ${label}${extra}</button>`;
     let h=it("refresh","تحديث الآن","manualRefresh()")
       +`<button class="menu-item" onclick="toggleTheme()">${SV("moon")} الوضع الليلي <small>${t?(dark?"مفعّل":"مطفأ"):"تلقائي"}</small></button>`
-      +it("user","تغيير اسمي","setMe('');go('me')");
+      +it("user","تغيير اسمي","setMe('');go('me')")
+      +`<button class="menu-item" onclick="toggleMenu(false);openSkins()"><svg class="ic"><use href="#c-clean"/></svg> الثيم والألوان <small>${(SKINS.find(k=>k[0]===curSkin())||[])[1]||""}</small></button>`;
     if(isAdmin){
       h+=`<div class="menu-sep"></div>`
         +it("lock","لوحة المدير","go('admin')")
@@ -987,12 +1068,12 @@ async function openReceipt(name){
   const T=(t,X,Y,font,col,al="right")=>{x.font=font;x.fillStyle=col;x.textAlign=al;x.fillText(t,X,Y)};
   // خلفية
   x.fillStyle="#f5f3ee";x.fillRect(0,0,W,H);
-  const g=x.createLinearGradient(0,0,W,360);g.addColorStop(0,"#17694f");g.addColorStop(1,"#0a3529");
+  const g=x.createLinearGradient(0,0,W,360);g.addColorStop(0,HC("--h1","#17694f"));g.addColorStop(1,HC("--h3","#0a3529"));
   x.fillStyle=g;x.fillRect(0,0,W,380);
-  x.fillStyle="#c9a24d";x.fillRect(0,376,W,4);
+  x.fillStyle=HC("--gold-2","#c9a24d");x.fillRect(0,376,W,4);
   if(emb)x.drawImage(emb,W-70-130,45,130,130);
   T("صندوق الاستراحة",W-225,112,F(700,52),"#fff");
-  T(`كشف حساب • ${p.periodLabel} ${currentPeriod}`,W-225,162,F(400,30),"#d9b866");
+  T(`كشف حساب • ${p.periodLabel} ${currentPeriod}`,W-225,162,F(400,30),HC("--hgold","#d9b866"));
   const today=new Date().toLocaleDateString("en-GB");
   T("تاريخ الإصدار",70,100,F(400,24),"#cfe5db","left");x.direction="ltr";T(today,70,140,F(600,30),"#fff","left");x.direction="rtl";
   // بطاقة الاسم
@@ -1077,11 +1158,11 @@ async function openPayReceipt(name,items,date){
   const T=(t,X,Y,font,col,al="right")=>{x.font=font;x.fillStyle=col;x.textAlign=al;x.fillText(t,X,Y)};
   const AMT=(n,X,Y,size,col)=>{x.font=F(600,size*.62);const cw=x.measureText("ر.س").width;T("ر.س",X,Y,F(600,size*.62),col,"left");x.direction="ltr";T(fmt(n),X+cw+10,Y,F(700,size),col,"left");x.direction="rtl"};
   x.fillStyle="#f5f3ee";x.fillRect(0,0,W,H);
-  const g=x.createLinearGradient(0,0,W,340);g.addColorStop(0,"#17694f");g.addColorStop(1,"#0a3529");x.fillStyle=g;x.fillRect(0,0,W,340);
-  x.fillStyle="#c9a24d";x.fillRect(0,336,W,4);
+  const g=x.createLinearGradient(0,0,W,340);g.addColorStop(0,HC("--h1","#17694f"));g.addColorStop(1,HC("--h3","#0a3529"));x.fillStyle=g;x.fillRect(0,0,W,340);
+  x.fillStyle=HC("--gold-2","#c9a24d");x.fillRect(0,336,W,4);
   if(emb)x.drawImage(emb,W-70-130,40,130,130);
   T("صندوق الاستراحة",W-225,105,F(700,50),"#fff");
-  T("إيصال استلام مبلغ",W-225,155,F(400,30),"#d9b866");
+  T("إيصال استلام مبلغ",W-225,155,F(400,30),HC("--hgold","#d9b866"));
   T("رقم الإيصال",70,92,F(400,24),"#cfe5db","left");x.direction="ltr";T(no,70,132,F(700,32),"#fff","left");x.direction="rtl";
   rr(60,210,W-120,H-340,40,"#ffffff");
   // ختم "تم الاستلام"
@@ -1307,11 +1388,11 @@ async function sendGroupReminder(){
   const rr=(X,Y,w,h,r,fill,stroke)=>{x.beginPath();x.roundRect(X,Y,w,h,r);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.lineWidth=2;x.stroke()}};
   // خلفية ورأس
   x.fillStyle="#f5f3ee";x.fillRect(0,0,W,H);
-  const g=x.createLinearGradient(0,0,W,330);g.addColorStop(0,"#17694f");g.addColorStop(1,"#0a3529");x.fillStyle=g;x.fillRect(0,0,W,330);
-  x.fillStyle="#c9a24d";x.fillRect(0,326,W,4);
+  const g=x.createLinearGradient(0,0,W,330);g.addColorStop(0,HC("--h1","#17694f"));g.addColorStop(1,HC("--h3","#0a3529"));x.fillStyle=g;x.fillRect(0,0,W,330);
+  x.fillStyle=HC("--gold-2","#c9a24d");x.fillRect(0,326,W,4);
   if(emb)x.drawImage(emb,W-70-130,40,130,130);
   T("صندوق الاستراحة",W-225,105,F(700,52),"#fff");
-  T(`تذكير بالاشتراكات • ${p.periodLabel||""} ${currentPeriod.split("-")[1]||""}`,W-225,157,F(400,30),"#d9b866");
+  T(`تذكير بالاشتراكات • ${p.periodLabel||""} ${currentPeriod.split("-")[1]||""}`,W-225,157,F(400,30),HC("--hgold","#d9b866"));
   // بطاقة
   rr(60,210,W-120,H-210-130,40,"#ffffff");
   T("السلام عليكم ورحمة الله",W-110,300,F(700,38),"#1b2420");
@@ -1538,7 +1619,7 @@ function init(){
   normalize(appData);
   currentPeriod=appConfig.defaultPeriod||currentPeriod; if(!appData[currentPeriod]) currentPeriod=Object.keys(appData)[0];
   renderAll();
-  addEventListener("scroll",()=>$("top").classList.toggle("scrolled",scrollY>4),{passive:true});
+  $("scroller").addEventListener("scroll",()=>$("top").classList.toggle("scrolled",$("scroller").scrollTop>4),{passive:true});
   cloudPull(false);
   setInterval(()=>{ if(!document.hidden) cloudPull(false); }, CLOUD_POLL_MS);
   document.addEventListener("visibilitychange",()=>{ if(!document.hidden) cloudPull(false); });
