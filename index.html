@@ -303,12 +303,20 @@ button{font:inherit;color:inherit;cursor:pointer}
 [data-skin="ahsa"][data-theme="dark"] .nb.on{color:#0f1a10;background:#8fc58f}
 [data-skin="ahsa"] .ring svg circle:last-child{stroke:#e8bf5c}
 
-/* ---------- تخطيط الجوال: رأس ثابت فوق وشريط تنقل ثابت تحت ---------- */
-html,body{min-height:100%}
-body{padding-bottom:calc(86px + env(safe-area-inset-bottom))!important}
-.top{position:sticky!important;top:0;z-index:50}
+/* ---------- شريط التنقل داخل الرأس الثابت أعلى الشاشة (يبقى ظاهر دائماً) ---------- */
+body{padding-bottom:24px!important}
+.top{position:sticky!important;top:0;z-index:60}
 #scroller{overflow:visible}
-.nav{position:fixed!important;left:0;right:0;bottom:0;z-index:80;transform:translateZ(0)}
+.top .nav{position:static!important;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:none!important;box-shadow:none;padding:0 10px 8px!important}
+.top .nav::before{display:none!important}
+.top .nav-in{max-width:640px;margin:0 auto;display:flex!important;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:4px}
+.top .nb{flex:1;flex-direction:row!important;justify-content:center;gap:5px!important;padding:9px 2px!important;border-radius:12px;font-size:.78rem!important;white-space:nowrap}
+.top .nb .ic{width:18px!important;height:18px!important;margin:0!important}
+.top .admin-nav{display:none!important}body.admin .top .admin-nav{display:flex!important}
+@media (max-width:380px){.top .nb .ic{display:none}}
+body.admin .top .nb .ic{display:none!important}
+.paybar{bottom:calc(16px + env(safe-area-inset-bottom))!important}
+.toast{bottom:calc(20px + env(safe-area-inset-bottom))!important}
 /* ---------- إضافات البوابة الفعلية ---------- */
 .loading .num{opacity:.55;transition:opacity .3s}
 .live.off{background:var(--ink-3);box-shadow:none;animation:none}
@@ -499,6 +507,15 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
     <button class="chip-period" id="periodChip" onclick="if(isAdmin)openPeriodTools()">—</button>
     <button class="icon-btn" onclick="toggleMenu(true)" aria-label="القائمة"><svg class="ic"><use href="#i-dots"/></svg></button>
   </div>
+<nav class="nav">
+  <div class="nav-in">
+    <button class="nb on" data-v="me" onclick="go('me')"><svg class="ic"><use href="#i-user"/></svg>بطاقتي</button>
+    <button class="nb" data-v="members" onclick="go('members')"><svg class="ic"><use href="#i-users"/></svg>الأعضاء</button>
+    <button class="nb" data-v="exp" onclick="go('exp')"><svg class="ic"><use href="#i-receipt"/></svg>المصروفات</button>
+    <button class="nb" data-v="fund" onclick="go('fund')"><svg class="ic"><use href="#i-wallet"/></svg>الصندوق</button>
+    <button class="nb admin-nav" data-v="admin" onclick="go('admin')"><svg class="ic"><use href="#i-lock"/></svg>المدير</button>
+  </div>
+</nav>
 </header>
 
 <div class="menu" id="menu">
@@ -540,15 +557,6 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
 </main>
 </div>
 
-<nav class="nav">
-  <div class="nav-in">
-    <button class="nb on" data-v="me" onclick="go('me')"><svg class="ic"><use href="#i-user"/></svg>بطاقتي</button>
-    <button class="nb" data-v="members" onclick="go('members')"><svg class="ic"><use href="#i-users"/></svg>الأعضاء</button>
-    <button class="nb" data-v="exp" onclick="go('exp')"><svg class="ic"><use href="#i-receipt"/></svg>المصروفات</button>
-    <button class="nb" data-v="fund" onclick="go('fund')"><svg class="ic"><use href="#i-wallet"/></svg>الصندوق</button>
-    <button class="nb admin-nav" data-v="admin" onclick="go('admin')"><svg class="ic"><use href="#i-lock"/></svg>المدير</button>
-  </div>
-</nav>
 
 <!-- نافذة كشف الحساب -->
 <div class="modal" id="rcModal" onclick="if(event.target===this)closeRc()">
