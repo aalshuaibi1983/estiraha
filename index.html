@@ -303,6 +303,12 @@ body{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidd
 #scroller{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 #scroller .wrap{padding-bottom:24px}
 .nav{position:relative!important;flex:none;bottom:auto}
+/* داخل Google Sites بإطار أطول من الشاشة: الشريط ينتقل لأعلى تحت الرأس ويبقى في متناول اليد */
+html.tallframe,html.tallframe body{height:auto;overflow:visible}
+html.tallframe body{display:block}
+html.tallframe #scroller{overflow:visible}
+html.tallframe .nav{position:relative!important;border-top:none;border-bottom:1px solid var(--line);padding-top:4px;padding-bottom:4px}
+html.tallframe .nav::before{display:none}
 /* ---------- إضافات البوابة الفعلية ---------- */
 .loading .num{opacity:.55;transition:opacity .3s}
 .live.off{background:var(--ink-3);box-shadow:none;animation:none}
@@ -672,7 +678,7 @@ function catOf(desc){for(const c of CATS)if(c[3].test(desc||""))return c;return[
 function go(v){
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));
   document.querySelectorAll(".nb").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
-  $("scroller").scrollTop=0;
+  $("scroller").scrollTop=0; if(document.documentElement.classList.contains("tallframe")) try{$("top").scrollIntoView({block:"start"})}catch(e){}
 }
 function toast(t){const e=$("toast");e.textContent=t;e.style.display="block";clearTimeout(e._t);e._t=setTimeout(()=>e.style.display="none",2800)}
 const SKINS=[["ahsa","الأحساء","#40271a","#2f5d34","#c99a32"],["green","الأخضر الملكي","#0e4a3a","#17694f","#c9a24d"],["najdi","النجدي","#9a5a2c","#1f5f6b","#cf8f45"],["heritage","السدو","#7c2416","#2b1d16","#c8923a"],["navy","الكحلي والذهبي","#1d3557","#2b4c7e","#d4af61"],["noir","الأسود والذهبي","#161616","#2a2a2a","#c9a24d"]];
@@ -1611,7 +1617,15 @@ async function cloudLogin(pin){
 addEventListener("beforeunload",e=>{ if(isAdmin&&(cloud.dirty||cloud.pushing)){ e.preventDefault(); e.returnValue=""; } });
 
 /* ======================= التشغيل ======================= */
+function fitFrame(){
+  let embedded=false; try{embedded=window.self!==window.top}catch(e){embedded=true}
+  const sh=Math.max(screen.availHeight||0,screen.height||0)||900;
+  const tall=embedded&&window.innerHeight>sh*1.08;
+  document.documentElement.classList.toggle("tallframe",tall);
+  if(tall){const nav=document.querySelector(".nav"),top=$("top"); if(nav&&top&&top.nextElementSibling!==nav) top.after(nav);}
+}
 function init(){
+  fitFrame(); addEventListener("resize",fitFrame);
   applyTheme(); try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme)}catch(e){}
   if(LOGO_URL) $("logoImg").src=LOGO_URL;
   try{ const c=JSON.parse(LS.get(CFG_KEY)||"null"); appConfig=Object.assign({},EMBEDDED_CONFIG,c||{}); }catch(e){ appConfig=Object.assign({},EMBEDDED_CONFIG); }
