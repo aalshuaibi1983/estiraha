@@ -722,7 +722,7 @@ function HC(n,f){try{const v=getComputedStyle(document.documentElement).getPrope
 function applyTheme(){document.documentElement.dataset.skin=curSkin();const t=LS.get("est_theme");const dark=t?t==="dark":(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);
   document.documentElement.dataset.theme=dark?"dark":"light";}
 function toggleTheme(){const dark=document.documentElement.dataset.theme==="dark";LS.set("est_theme",dark?"light":"dark");applyTheme();toggleMenu(false)}
-function setMe(n){LS.set("est_me",n);renderMe()}
+function setMe(n){LS.set("est_me",n);renderMe();pushLink()}
 
 function toggleMenu(o){
   if(o){
@@ -1510,6 +1510,7 @@ function renderAdmin(){
   <div class="section-title"><h2>يحتاجون متابعة</h2><span>${late.length?late.length+" أعضاء":""}</span></div>
   <div class="card">${late.length?late.slice(0,6).map(({m,i,a})=>`<div class="fu-row">
       <div class="fu-n"><b>${esc(m.name)}</b><small class="num">${fmt(a.overdueNow)} ر.س متأخر</small></div>
+      <button class="fu-b" onclick="pushLate(${i})" title="إشعار">${SV("bell")}</button>
       <a class="fu-b wa" target="_blank" rel="noopener" href="${waLink(waText(m,a))}" title="تذكير">${SV("chat")}</a>
       <button class="fu-b" onclick="formPay(${i})">${SV("wallet")} دفعة</button></div>`).join("")+(late.length>6?`<button class="fu-more" onclick="filter='late';go('members');renderMembers()">عرض الكل (${late.length})</button>`:"")
     :`<div class="empty">ما فيه متأخرين — الحمد لله</div>`}</div>
@@ -1707,6 +1708,16 @@ function renderPushBanner(){
   const show=pushSupported()&&!pushState.on&&!LS.get("est_push_hide")&&(!isIOS()||isStandalone());
   b.style.display=show?"flex":"none";
 }
+function pushId(name){ // معرّف ثابت للعضو بدون إرسال الاسم نفسه
+  let h1=0x811c9dc5,h2=0x1505; const s=String(name||"").trim();
+  for(let i=0;i<s.length;i++){const c=s.charCodeAt(i); h1=Math.imul(h1^c,0x01000193)>>>0; h2=(Math.imul(h2,33)+c)>>>0;}
+  return "est_"+h1.toString(16).padStart(8,"0")+h2.toString(16).padStart(8,"0");
+}
+async function pushLink(){
+  if(!pushState.ready||!window.OneSignal) return;
+  const me=LS.get("est_me");
+  try{ if(me) await OneSignal.login(pushId(me)); else await OneSignal.logout(); }catch(e){}
+}
 function hidePushBanner(){LS.set("est_push_hide","1");renderPushBanner()}
 function pushRefresh(){
   try{ pushState.on=!!(window.OneSignal&&OneSignal.User.PushSubscription.optedIn&&OneSignal.Notifications.permission); }catch(e){ pushState.on=false; }
@@ -1719,7 +1730,7 @@ if(pushSupported()){
       await OneSignal.init({appId:ONESIGNAL_APP_ID,safari_web_id:"web.onesignal.auto.54d60a3d-c0d7-4ae1-b490-c29a9cfa7b70",
         serviceWorkerPath:"estiraha/push/onesignal/OneSignalSDKWorker.js",serviceWorkerParam:{scope:"/estiraha/push/onesignal/"},
         notifyButton:{enable:false},promptOptions:{slidedown:{prompts:[]}},welcomeNotification:{disable:true}});
-      pushState.ready=true; pushRefresh();
+      pushState.ready=true; pushRefresh(); pushLink();
       OneSignal.User.PushSubscription.addEventListener("change",pushRefresh);
       OneSignal.Notifications.addEventListener("permissionChange",pushRefresh);
     }catch(e){ console.warn("push init",e); }
@@ -1739,7 +1750,7 @@ async function enablePush(){
   try{
     if(Notification.permission==="denied"){ toast("الإشعارات محظورة من إعدادات المتصفح للموقع؛ فعّلها من هناك"); return; }
     await OneSignal.Notifications.requestPermission();
-    await OneSignal.User.PushSubscription.optIn();
+    await OneSignal.User.PushSubscription.optIn(); await pushLink();
     pushRefresh(); toast(pushState.on?"تم تفعيل الإشعارات ✓":"لم يتم التفعيل");
   }catch(e){ toast("تعذر تفعيل الإشعارات"); }
 }
@@ -1755,23 +1766,32 @@ function pushTemplates(){
     ["اجتماع","اجتماع في الاستراحة","نلتقي إن شاء الله في الاستراحة يوم … الساعة …"]
   ];
 }
-function formPush(){
+function formPush(target){
   const T=pushTemplates(); window.__pt=T;
+  const names=P().members.map(m=>m.name);
+  const sel=`<label>إلى<select name="to"><option value="">كل الأعضاء</option>${names.map(n=>`<option value="${esc(n)}" ${n===target?"selected":""}>${esc(n)}</option>`).join("")}</select></label>`;
   openDlg("إشعار لجوالات الأعضاء",`<div class="push-tpl">${T.map((x,i)=>`<button type="button" onclick="pickPushTpl(${i})">${x[0]}</button>`).join("")}</div>`+
-    formHtml([fIn("t","العنوان","text","صندوق الاستراحة",'maxlength="80"'),`<label>نص الإشعار<textarea name="m" maxlength="400" placeholder="اكتب الرسالة…"></textarea></label>`],"إرسال للجميع",async f=>{
-      const title=f.t.value.trim(), message=f.m.value.trim();
+    formHtml([sel,fIn("t","العنوان","text","صندوق الاستراحة",'maxlength="80"'),`<label>نص الإشعار<textarea name="m" maxlength="400" placeholder="اكتب الرسالة…"></textarea></label>`],"إرسال",async f=>{
+      const title=f.t.value.trim(), message=f.m.value.trim(), to=f.to.value;
       if(!message) return fErr("اكتب نص الإشعار");
       const btn=f.querySelector("button[type=submit]"); btn.disabled=true; btn.textContent="جاري الإرسال…";
       try{
-        const r=await cloudPost({action:"notify",pin:cloud.adminPin,title,message});
-        if(r&&r.ok){ closeDlg(); toast("تم إرسال الإشعار ✓"); return; }
+        const r=await cloudPost({action:"notify",pin:cloud.adminPin,title,message,externalId:to?pushId(to):""});
+        if(r&&r.ok){ closeDlg(); toast(to?`تم الإرسال إلى ${to} ✓`:"تم إرسال الإشعار للجميع ✓"); return; }
         const er=(r&&r.error)||"";
-        fErr(er==="no_key"?"مفتاح OneSignal غير مضبوط في السكربت بعد":er==="bad_pin"?"أعد دخول المدير":er==="daily_limit"?"وصلت الحد اليومي (20 إشعار)":er==="unknown_action"?"حدّث كود السكربت (Apps Script) أولاً":"تعذر الإرسال: "+((r&&r.detail)||er));
+        fErr(er==="no_key"?"مفتاح OneSignal غير مضبوط في السكربت بعد":er==="bad_pin"?"أعد دخول المدير":er==="daily_limit"?"وصلت الحد اليومي (20 إشعار)":er==="unknown_action"?"حدّث كود السكربت (Apps Script) أولاً":er==="no_subscriber"?"هذا العضو ما فعّل الإشعارات في جواله بعد":"تعذر الإرسال: "+((r&&r.detail)||er));
       }catch(e){ fErr("تعذر الاتصال بالخادم"); }
-      btn.disabled=false; btn.textContent="إرسال للجميع";
-    })+`<p class="hint" style="margin-top:8px">يوصل لكل عضو فعّل الإشعارات في البوابة.</p>`);
+      btn.disabled=false; btn.textContent="إرسال";
+    })+`<p class="hint" style="margin-top:8px">يوصل لمن فعّل الإشعارات في البوابة واختار اسمه في «بطاقتي».</p>`);
 }
 function pickPushTpl(i){const x=window.__pt[i],f=$("dlgBody").querySelector("form"); f.t.value=x[1]; f.m.value=x[2]; f.m.focus();}
+function pushLate(i){
+  const m=P().members[i], a=analyzeMember(m,currentPeriod);
+  formPush(m.name);
+  const f=$("dlgBody").querySelector("form");
+  f.t.value="تذكير بقطة الاستراحة";
+  f.m.value=`هلا ${m.name}، عليك ${fmt(a.overdueNow)} ر.س متأخرة لصندوق الاستراحة. نأمل السداد قبل يوم 27، وإذا سددت مؤخراً فجزاك الله خير.`;
+}
 if("serviceWorker" in navigator && location.protocol==="https:" && /github\.io$/.test(location.hostname)){
   addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
