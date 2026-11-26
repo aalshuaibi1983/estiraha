@@ -445,6 +445,9 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
 .inst-t{flex:1;min-width:0}.inst-t b{display:block;font-size:.92rem}.inst-t small{font-size:.74rem;color:var(--ink-3)}
 .inst-b{border:none;background:var(--brand);color:#fff;font-weight:700;border-radius:11px;padding:9px 16px;font-size:.88rem}
 .inst-x{border:none;background:none;color:var(--ink-3);width:28px;height:28px;display:grid;place-items:center}.inst-x .ic{width:16px;height:16px}
+.inst-ic{width:42px;height:42px;border-radius:11px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;flex:none}.inst-ic .ic{width:22px;height:22px}
+.push-tpl{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.push-tpl button{border:1.5px solid var(--line);background:var(--surface-2);border-radius:999px;padding:6px 12px;font-size:.8rem;color:var(--ink-2)}
+.form textarea{width:100%;min-height:96px;border:1.5px solid var(--line);border-radius:12px;padding:10px;font:inherit;background:var(--surface);color:var(--ink);resize:vertical}
 .inst-steps{padding-right:22px;line-height:2.1;font-size:.95rem;color:var(--ink-2)}
 .paylog{margin-top:12px;background:var(--surface-2);border-radius:14px;padding:10px 12px}
 .pl-h{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--ink-3);margin-bottom:4px}.pl-h .ic{width:14px;height:14px}
@@ -463,7 +466,7 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
- <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6.5 2 6.5H4S6 14 6 9"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></symbol>
  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"/><path d="M16 3.6a4 4 0 0 1 0 8"/><path d="M22 21v-1a5 5 0 0 0-3.5-4.8"/></symbol>
  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
  <symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18"/><path d="M7 6V5a2 2 0 0 1 2-2h8"/><circle cx="16.5" cy="15" r="1"/></symbol>
@@ -536,6 +539,12 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
     <div class="inst-t"><b>ثبّت البوابة كتطبيق</b><small>أيقونة على جوالك وتفتح بضغطة</small></div>
     <button class="inst-b" onclick="installApp()">تثبيت</button>
     <button class="inst-x" onclick="hideInstall()" aria-label="إخفاء"><svg class="ic"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="inst" id="pushBanner" style="display:none">
+    <span class="inst-ic"><svg class="ic"><use href="#i-bell"/></svg></span>
+    <div class="inst-t"><b>فعّل إشعارات الاستراحة</b><small>يوصلك تذكير السداد والأخبار على جوالك</small></div>
+    <button class="inst-b" onclick="enablePush()">تفعيل</button>
+    <button class="inst-x" onclick="hidePushBanner()" aria-label="إخفاء"><svg class="ic"><use href="#i-x"/></svg></button>
   </div>
   <section class="view on" id="v-me">
     <div id="meBox"></div>
@@ -723,6 +732,7 @@ function toggleMenu(o){
       +`<button class="menu-item" onclick="toggleTheme()">${SV("moon")} الوضع الليلي <small>${t?(dark?"مفعّل":"مطفأ"):"تلقائي"}</small></button>`
       +it("user","تغيير اسمي","setMe('');go('me')")
       +(isStandalone()?"":it("down","تثبيت كتطبيق","installApp()"))
+      +(pushSupported()?`<button class="menu-item" onclick="toggleMenu(false);enablePush()">${SV("bell")} الإشعارات <small>${pushState.on?"مفعّلة":"غير مفعّلة"}</small></button>`:"")
       +`<button class="menu-item" onclick="toggleMenu(false);openSkins()"><svg class="ic"><use href="#c-clean"/></svg> الثيم والألوان <small>${(SKINS.find(k=>k[0]===curSkin())||[])[1]||""}</small></button>`;
     if(isAdmin){
       h+=`<div class="menu-sep"></div>`
@@ -1494,6 +1504,7 @@ function renderAdmin(){
     ${tile("gift","دخل إضافي","دعم أو قطة خارجية","formIncome()")}
     ${tile("user","عضو جديد","إضافة عضو للفترة","formMember()")}
     ${tile("cal","الفترات","التبديل والترحيل","openPeriodTools()")}
+    ${tile("bell","إشعار للأعضاء","يوصل لجوالاتهم مباشرة","formPush()","gold")}
   </div>
 
   <div class="section-title"><h2>يحتاجون متابعة</h2><span>${late.length?late.length+" أعضاء":""}</span></div>
@@ -1685,11 +1696,88 @@ async function installApp(){
     `<p class="hint" style="margin-top:8px">بعدها تلقى أيقونة «الاستراحة» في جوالك، وتفتح مثل التطبيق بدون شريط المتصفح.</p>`);
 }
 function hideInstall(){LS.set("est_inst_hide","1");renderInstall()}
+/* ======================= الإشعارات (OneSignal) ======================= */
+const ONESIGNAL_APP_ID="3b196002-8d8d-4de2-8d5e-b28ac97c3494";
+const pushState={ready:false,on:false};
+const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+function pushHost(){return location.protocol==="https:"&&/github\.io$/.test(location.hostname)}
+function pushSupported(){return pushHost()&&("serviceWorker" in navigator)&&(("PushManager" in window)||isIOS())}
+function renderPushBanner(){
+  const b=$("pushBanner"); if(!b) return;
+  const show=pushSupported()&&!pushState.on&&!LS.get("est_push_hide")&&(!isIOS()||isStandalone());
+  b.style.display=show?"flex":"none";
+}
+function hidePushBanner(){LS.set("est_push_hide","1");renderPushBanner()}
+function pushRefresh(){
+  try{ pushState.on=!!(window.OneSignal&&OneSignal.User.PushSubscription.optedIn&&OneSignal.Notifications.permission); }catch(e){ pushState.on=false; }
+  renderPushBanner();
+}
+if(pushSupported()){
+  window.OneSignalDeferred=window.OneSignalDeferred||[];
+  OneSignalDeferred.push(async function(OneSignal){
+    try{
+      await OneSignal.init({appId:ONESIGNAL_APP_ID,safari_web_id:"web.onesignal.auto.54d60a3d-c0d7-4ae1-b490-c29a9cfa7b70",
+        serviceWorkerPath:"estiraha/push/onesignal/OneSignalSDKWorker.js",serviceWorkerParam:{scope:"/estiraha/push/onesignal/"},
+        notifyButton:{enable:false},promptOptions:{slidedown:{prompts:[]}},welcomeNotification:{disable:true}});
+      pushState.ready=true; pushRefresh();
+      OneSignal.User.PushSubscription.addEventListener("change",pushRefresh);
+      OneSignal.Notifications.addEventListener("permissionChange",pushRefresh);
+    }catch(e){ console.warn("push init",e); }
+  });
+  const s=document.createElement("script"); s.src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"; s.defer=true; document.head.appendChild(s);
+}
+async function enablePush(){
+  if(isIOS()&&!isStandalone()){
+    openDlg("تفعيل الإشعارات",`<p style="line-height:1.9;margin-bottom:6px">في الآيفون تشتغل الإشعارات بعد تثبيت البوابة على الشاشة الرئيسية:</p>
+      <ol class="inst-steps"><li>افتح الرابط في <b>Safari</b></li><li>اضغط زر المشاركة <b>⬆︎</b></li><li>اختر <b>«إضافة إلى الشاشة الرئيسية»</b></li><li>افتح التطبيق من الأيقونة ثم اضغط <b>«تفعيل الإشعارات»</b></li></ol>
+      <p class="hint" style="margin-top:8px">يتطلب iOS 16.4 أو أحدث.</p>`); return;
+  }
+  if(!pushState.ready){ toast("لحظات… جاري تجهيز الإشعارات، حاول بعد ثوانٍ"); return; }
+  if(pushState.on){
+    openDlg("الإشعارات",`<p style="line-height:1.9;margin-bottom:14px">الإشعارات مفعّلة على هذا الجهاز ✓</p><div class="actions"><button class="btn btn-sec" onclick="disablePush()">إيقاف الإشعارات</button><button class="btn btn-pri" onclick="closeDlg()">تمام</button></div>`); return;
+  }
+  try{
+    if(Notification.permission==="denied"){ toast("الإشعارات محظورة من إعدادات المتصفح للموقع؛ فعّلها من هناك"); return; }
+    await OneSignal.Notifications.requestPermission();
+    await OneSignal.User.PushSubscription.optIn();
+    pushRefresh(); toast(pushState.on?"تم تفعيل الإشعارات ✓":"لم يتم التفعيل");
+  }catch(e){ toast("تعذر تفعيل الإشعارات"); }
+}
+async function disablePush(){ try{await OneSignal.User.PushSubscription.optOut()}catch(e){} closeDlg(); pushRefresh(); toast("تم إيقاف الإشعارات"); }
+
+/* ---- إرسال إشعار من المدير ---- */
+function pushTemplates(){
+  const p=P(), names=p.monthNames||[], mName=monthShort(names[defaultMonthIdx()]||"")||"";
+  return [
+    ["تذكير بالسداد","تذكير بقطة الاستراحة",`نذكّركم بسداد قطة شهر ${mName}، وآخر موعد يوم 27. جزاكم الله خيراً.`],
+    ["آخر موعد اليوم","اليوم آخر موعد للسداد",`اليوم هو آخر موعد لسداد قطة شهر ${mName}. من سدّد جزاه الله خير.`],
+    ["تحديث الكشف","تم تحديث كشف الصندوق","تم تحديث المدفوعات والمصروفات في البوابة، تقدر تشوف حسابك الآن."],
+    ["اجتماع","اجتماع في الاستراحة","نلتقي إن شاء الله في الاستراحة يوم … الساعة …"]
+  ];
+}
+function formPush(){
+  const T=pushTemplates(); window.__pt=T;
+  openDlg("إشعار لجوالات الأعضاء",`<div class="push-tpl">${T.map((x,i)=>`<button type="button" onclick="pickPushTpl(${i})">${x[0]}</button>`).join("")}</div>`+
+    formHtml([fIn("t","العنوان","text","صندوق الاستراحة",'maxlength="80"'),`<label>نص الإشعار<textarea name="m" maxlength="400" placeholder="اكتب الرسالة…"></textarea></label>`],"إرسال للجميع",async f=>{
+      const title=f.t.value.trim(), message=f.m.value.trim();
+      if(!message) return fErr("اكتب نص الإشعار");
+      const btn=f.querySelector("button[type=submit]"); btn.disabled=true; btn.textContent="جاري الإرسال…";
+      try{
+        const r=await cloudPost({action:"notify",pin:cloud.adminPin,title,message});
+        if(r&&r.ok){ closeDlg(); toast("تم إرسال الإشعار ✓"); return; }
+        const er=(r&&r.error)||"";
+        fErr(er==="no_key"?"مفتاح OneSignal غير مضبوط في السكربت بعد":er==="bad_pin"?"أعد دخول المدير":er==="daily_limit"?"وصلت الحد اليومي (20 إشعار)":er==="unknown_action"?"حدّث كود السكربت (Apps Script) أولاً":"تعذر الإرسال: "+((r&&r.detail)||er));
+      }catch(e){ fErr("تعذر الاتصال بالخادم"); }
+      btn.disabled=false; btn.textContent="إرسال للجميع";
+    })+`<p class="hint" style="margin-top:8px">يوصل لكل عضو فعّل الإشعارات في البوابة.</p>`);
+}
+function pickPushTpl(i){const x=window.__pt[i],f=$("dlgBody").querySelector("form"); f.t.value=x[1]; f.m.value=x[2]; f.m.focus();}
 if("serviceWorker" in navigator && location.protocol==="https:" && /github\.io$/.test(location.hostname)){
   addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
 function init(){
 
+  renderPushBanner();
   applyTheme(); try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme)}catch(e){}
   if(LOGO_URL) $("logoImg").src=LOGO_URL;
   try{ const c=JSON.parse(LS.get(CFG_KEY)||"null"); appConfig=Object.assign({},EMBEDDED_CONFIG,c||{}); }catch(e){ appConfig=Object.assign({},EMBEDDED_CONFIG); }
