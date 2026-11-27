@@ -452,6 +452,8 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
 .aw-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.aw-row b{display:block;font-size:.95rem}.aw-row small{display:block;color:var(--ink-3);font-size:.78rem;line-height:1.6;margin-top:2px}.aw-row input{width:22px;height:22px;accent-color:var(--brand);flex:none}
 .ps-sum{text-align:center;padding:6px 0 12px;font-size:.95rem}.ps-sum b{font-size:1.6rem;color:var(--brand);margin-left:4px}
 .ps-row{display:flex;justify-content:space-between;padding:9px 4px;border-bottom:1px solid var(--line);font-size:.9rem}.ps-row b{color:var(--ink-3);font-weight:600;font-size:.8rem}.ps-row.ok b{color:var(--good,#2e7d32)}
+.pst{display:block;width:100%;font-size:.8rem;font-weight:700;padding:8px 10px;border-radius:10px;margin-bottom:4px}.pst.late{background:#fbe4e1;color:#a3352a}.pst.wait{background:var(--gold-soft);color:var(--gold)}.pst.ok{background:var(--brand-soft);color:var(--brand)}
+.push-tpl button.on{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
 .push-tpl{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.push-tpl button{border:1.5px solid var(--line);background:var(--surface-2);border-radius:999px;padding:6px 12px;font-size:.8rem;color:var(--ink-2)}
 .form textarea{width:100%;min-height:96px;border:1.5px solid var(--line);border-radius:12px;padding:10px;font:inherit;background:var(--surface);color:var(--ink);resize:vertical}
 .inst-steps{padding-right:22px;line-height:2.1;font-size:.95rem;color:var(--ink-2)}
@@ -1822,11 +1824,41 @@ function pushTemplates(){
     ["اجتماع","اجتماع في الاستراحة","نلتقي إن شاء الله في الاستراحة يوم … الساعة …"]
   ];
 }
+function memberPushInfo(name){
+  const p=P(), m=p.members.find(x=>x.name===name); if(!m) return null;
+  const a=analyzeMember(m,currentPeriod), names=p.monthNames||[], mName=monthShort(names[defaultMonthIdx()]||"")||"";
+  const lateMonths=a.states.map((s,i)=>s.state==="late"?monthShort(names[i]||""):null).filter(Boolean);
+  if(a.pastRem>0) lateMonths.unshift("الفترة السابقة");
+  const day=new Date().getDate(), last=day>=25&&day<=27;
+  const T=[];
+  if(a.overdueNow>0){
+    const extra=a.graceDue>0?`، ومعها قسط شهر ${mName} (${fmt(a.graceDue)} ر.س)`:"";
+    T.push(["تذكير بالمتأخر","تذكير بقطة الاستراحة",`هلا ${name}، عليك ${fmt(a.overdueNow)} ر.س متأخرة لصندوق الاستراحة${extra}. نأمل السداد في أقرب وقت، وإذا سددت مؤخراً فجزاك الله خير.`]);
+    T.push(["تفاصيل المتأخر","تفاصيل المتأخر عليك",`هلا ${name}، المتأخر عليك: ${lateMonths.join("، ")}، والمجموع ${fmt(a.overdueNow+a.graceDue)} ر.س. تقدر تشوف التفاصيل في بطاقتك بالبوابة.`]);
+    if(last) T.push(["آخر موعد اليوم","آخر موعد للسداد",`هلا ${name}، آخر موعد للسداد يوم 27، والمطلوب منك ${fmt(a.overdueNow+a.graceDue)} ر.س. جزاك الله خير.`]);
+  } else if(a.graceDue>0){
+    T.push(["قسط الشهر","تذكير بقطة الاستراحة",`هلا ${name}، قسط شهر ${mName} (${fmt(a.graceDue)} ر.س) مستحق، وآخر موعد يوم 27. جزاك الله خير.`]);
+    if(last) T.push(["آخر موعد اليوم","آخر موعد للسداد",`هلا ${name}، آخر موعد لسداد قسط شهر ${mName} (${fmt(a.graceDue)} ر.س) يوم 27. جزاك الله خير.`]);
+  } else {
+    T.push(["شكر على الالتزام","شكراً لالتزامك",`هلا ${name}، حسابك في صندوق الاستراحة منتظم ✓ شكراً لالتزامك، جزاك الله خير.`]);
+    T.push(["وصلتنا قطتك","وصلتنا قطتك ✓",`هلا ${name}، تم تسجيل قطتك في صندوق الاستراحة. جزاك الله خير.`]);
+  }
+  T.push(["اجتماع","اجتماع في الاستراحة","نلتقي إن شاء الله في الاستراحة يوم … الساعة …"]);
+  T.push(["رسالة خاصة","صندوق الاستراحة",""]);
+  const st=a.overdueNow>0?`<span class="pst late">متأخر ${fmt(a.overdueNow)} ر.س${lateMonths.length?" — "+esc(lateMonths.join("، ")):""}</span>`
+    :a.graceDue>0?`<span class="pst wait">عليه قسط ${esc(mName)}: ${fmt(a.graceDue)} ر.س (المهلة حتى 27)</span>`
+    :`<span class="pst ok">منتظم ✓ ما عليه شي</span>`;
+  return {T,st};
+}
+function refreshPushTpl(name,auto){
+  const info=name?memberPushInfo(name):null, T=info?info.T:pushTemplates(); window.__pt=T;
+  $("pushTpl").innerHTML=(info?info.st:"")+T.map((x,i)=>`<button type="button" onclick="pickPushTpl(${i})">${x[0]}</button>`).join("");
+  if(auto&&info) pickPushTpl(0,true); else if(!info){const f=$("dlgBody").querySelector("form"); if(f){f.t.value="صندوق الاستراحة"; f.m.value="";}}
+}
 function formPush(target){
-  const T=pushTemplates(); window.__pt=T;
   const names=P().members.map(m=>m.name);
-  const sel=`<label>إلى<select name="to"><option value="">كل الأعضاء</option>${names.map(n=>`<option value="${esc(n)}" ${n===target?"selected":""}>${esc(n)}</option>`).join("")}</select></label>`;
-  openDlg("إشعار لجوالات الأعضاء",`<div class="push-tpl">${T.map((x,i)=>`<button type="button" onclick="pickPushTpl(${i})">${x[0]}</button>`).join("")}</div>`+
+  const sel=`<label>إلى<select name="to" onchange="refreshPushTpl(this.value,true)"><option value="">كل الأعضاء</option>${names.map(n=>`<option value="${esc(n)}" ${n===target?"selected":""}>${esc(n)}</option>`).join("")}</select></label>`;
+  openDlg("إشعار لجوالات الأعضاء",`<div class="push-tpl" id="pushTpl"></div>`+
     formHtml([sel,fIn("t","العنوان","text","صندوق الاستراحة",'maxlength="80"'),`<label>نص الإشعار<textarea name="m" maxlength="400" placeholder="اكتب الرسالة…"></textarea></label>`],"إرسال",async f=>{
       const title=f.t.value.trim(), message=f.m.value.trim(), to=f.to.value;
       if(!message) return fErr("اكتب نص الإشعار");
@@ -1839,15 +1871,11 @@ function formPush(target){
       }catch(e){ fErr("تعذر الاتصال بالخادم"); }
       btn.disabled=false; btn.textContent="إرسال";
     })+`<p class="hint" style="margin-top:8px">يوصل لمن فعّل الإشعارات في البوابة واختار اسمه في «بطاقتي».</p>`);
+  const f=$("dlgBody").querySelector("form"), l=f.querySelector("label"); l.parentNode.insertBefore($("pushTpl"),l.nextSibling);
+  refreshPushTpl(target||"",!!target);
 }
-function pickPushTpl(i){const x=window.__pt[i],f=$("dlgBody").querySelector("form"); f.t.value=x[1]; f.m.value=x[2]; f.m.focus();}
-function pushLate(i){
-  const m=P().members[i], a=analyzeMember(m,currentPeriod);
-  formPush(m.name);
-  const f=$("dlgBody").querySelector("form");
-  f.t.value="تذكير بقطة الاستراحة";
-  f.m.value=`هلا ${m.name}، عليك ${fmt(a.overdueNow)} ر.س متأخرة لصندوق الاستراحة. نأمل السداد قبل يوم 27، وإذا سددت مؤخراً فجزاك الله خير.`;
-}
+function pickPushTpl(i,nofocus){const x=window.__pt[i],f=$("dlgBody").querySelector("form"); f.t.value=x[1]; f.m.value=x[2]; $("pushTpl").querySelectorAll("button").forEach((b,j)=>b.classList.toggle("on",j===i)); if(!nofocus&&!x[2]) f.m.focus();}
+function pushLate(i){ formPush(P().members[i].name); }
 if("serviceWorker" in navigator && location.protocol==="https:" && /github\.io$/.test(location.hostname)){
   addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
