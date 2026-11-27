@@ -446,6 +446,9 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
 .inst-b{border:none;background:var(--brand);color:#fff;font-weight:700;border-radius:11px;padding:9px 16px;font-size:.88rem}
 .inst-x{border:none;background:none;color:var(--ink-3);width:28px;height:28px;display:grid;place-items:center}.inst-x .ic{width:16px;height:16px}
 .inst-ic{width:42px;height:42px;border-radius:11px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;flex:none}.inst-ic .ic{width:22px;height:22px}
+.aw-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.aw-row b{display:block;font-size:.95rem}.aw-row small{display:block;color:var(--ink-3);font-size:.78rem;line-height:1.6;margin-top:2px}.aw-row input{width:22px;height:22px;accent-color:var(--brand);flex:none}
+.ps-sum{text-align:center;padding:6px 0 12px;font-size:.95rem}.ps-sum b{font-size:1.6rem;color:var(--brand);margin-left:4px}
+.ps-row{display:flex;justify-content:space-between;padding:9px 4px;border-bottom:1px solid var(--line);font-size:.9rem}.ps-row b{color:var(--ink-3);font-weight:600;font-size:.8rem}.ps-row.ok b{color:var(--good,#2e7d32)}
 .push-tpl{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.push-tpl button{border:1.5px solid var(--line);background:var(--surface-2);border-radius:999px;padding:6px 12px;font-size:.8rem;color:var(--ink-2)}
 .form textarea{width:100%;min-height:96px;border:1.5px solid var(--line);border-radius:12px;padding:10px;font:inherit;background:var(--surface);color:var(--ink);resize:vertical}
 .inst-steps{padding-right:22px;line-height:2.1;font-size:.95rem;color:var(--ink-2)}
@@ -1505,6 +1508,8 @@ function renderAdmin(){
     ${tile("user","عضو جديد","إضافة عضو للفترة","formMember()")}
     ${tile("cal","الفترات","التبديل والترحيل","openPeriodTools()")}
     ${tile("bell","إشعار للأعضاء","يوصل لجوالاتهم مباشرة","formPush()","gold")}
+    ${tile("clock","الإشعارات التلقائية",(appConfig.autoRemind!==false?"التذكير 25 و27 مفعّل":"التذكير متوقف"),"openAutoPush()")}
+    ${tile("users","مين فعّل الإشعارات","تابع اللي ما فعّلها","openPushStatus()")}
   </div>
 
   <div class="section-title"><h2>يحتاجون متابعة</h2><span>${late.length?late.length+" أعضاء":""}</span></div>
@@ -1579,6 +1584,48 @@ function restoreBackup(inp){
     });
   };
   rd.readAsText(f);
+}
+
+/* ======================= الإشعارات التلقائية ======================= */
+function swRow(key,title,sub){
+  const on=appConfig[key]!==false;
+  return `<label class="aw-row"><span><b>${title}</b><small>${sub}</small></span><input type="checkbox" ${on?"checked":""} onchange="appConfig['${key}']=this.checked;persist();toast(this.checked?'تم التفعيل':'تم الإيقاف');renderAdmin&&renderAdmin()"></label>`;
+}
+function openAutoPush(){
+  openDlg("الإشعارات التلقائية",`
+    ${swRow("autoRemind","تذكير السداد التلقائي","يوم 25 و27 الساعة 7 مساءً، يوصل للي عليهم مبالغ فقط مع المبلغ المطلوب من كل واحد")}
+    ${swRow("pushOnPay","إشعار «وصلتنا قطتك ✓»","أول ما تسجّل دفعة عضو يوصله تأكيد على جواله")}
+    <div class="aw-row"><span><b>النسخة الاحتياطية الأسبوعية</b><small>كل جمعة تنحفظ نسخة في درايفك (مجلد «نسخ صندوق الاستراحة الاحتياطية»)، ويبقى آخر 12 نسخة</small></span></div>
+    <div class="actions" style="flex-wrap:wrap">
+      <button class="btn btn-sec" onclick="autoAction('backupNow')">نسخة احتياطية الآن</button>
+      <button class="btn btn-pri" onclick="autoAction('runReminder')">أرسل التذكير الآن</button>
+    </div>
+    <p class="hint" style="margin-top:8px">«أرسل التذكير الآن» يرسل لكل من عليه مبلغ حسب الكشف الحالي.</p>`);
+}
+async function autoAction(act){
+  if(act==="runReminder"&&!confirm("يرسل تذكير لكل عضو عليه مبلغ الآن. متأكد؟")) return;
+  toast("جاري التنفيذ…");
+  try{
+    const d=new Date().getDate();
+    const r=await cloudPost({action:act,pin:cloud.adminPin,day:d>=27?27:25});
+    if(r&&r.ok){
+      if(act==="backupNow") toast("تم حفظ النسخة في درايفك ✓");
+      else toast(r.sent?`تم إرسال التذكير إلى ${r.sent} عضو ✓`:"ما فيه أحد عليه مبالغ 👍");
+    } else toast(r&&r.error==="unknown_action"?"حدّث كود السكربت أولاً":"تعذر التنفيذ: "+((r&&r.error)||""));
+  }catch(e){ toast("تعذر الاتصال"); }
+}
+async function openPushStatus(){
+  openDlg("مين فعّل الإشعارات",`<div class="empty">جاري الفحص…</div>`);
+  try{
+    const r=await cloudPost({action:"pushStatus",pin:cloud.adminPin});
+    if(!(r&&r.ok)){ $("dlgBody").innerHTML=`<div class="empty">${r&&r.error==="unknown_action"?"حدّث كود السكربت أولاً":"تعذر الفحص"}</div>`; return; }
+    const st=r.status, names=Object.keys(st), on=names.filter(n=>st[n]), off=names.filter(n=>!st[n]);
+    const li=(n,ok)=>`<div class="ps-row ${ok?"ok":""}"><span>${esc(n)}</span><b>${ok?"✓ مفعّل":"غير مفعّل"}</b></div>`;
+    const msg=`السلام عليكم، فعّلوا إشعارات بوابة الاستراحة عشان يوصلكم تذكير السداد على جوالاتكم:\n${SITE_LINK}\nافتحوا الرابط ← اختر اسمك ← ثبّت البوابة ← اضغط «تفعيل».`;
+    $("dlgBody").innerHTML=`<div class="ps-sum"><b class="num">${on.length}</b> من ${names.length} فعّلوا الإشعارات</div>
+      ${off.map(n=>li(n,false)).join("")}${on.map(n=>li(n,true)).join("")}
+      <div class="actions"><a class="btn btn-pri" target="_blank" href="${waLink(msg)}">تذكير بالتفعيل في الواتساب</a></div>`;
+  }catch(e){ $("dlgBody").innerHTML=`<div class="empty">تعذر الاتصال</div>`; }
 }
 
 function closeRc(){$("rcModal").classList.remove("open")}
