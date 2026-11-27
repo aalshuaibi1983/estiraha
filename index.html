@@ -449,6 +449,14 @@ div.set-list:not(.card){border:1px solid var(--line);border-radius:14px}
 .adm-group{margin:18px 4px 2px;font-size:.8rem;font-weight:700;color:var(--ink-3);letter-spacing:.2px}
 .me-push{display:inline-flex;align-items:center;gap:5px;margin-top:6px;border:1px dashed var(--line);background:var(--surface-2);color:var(--ink-3);border-radius:999px;padding:3px 10px;font-size:.72rem;font-weight:600}
 .me-push .ic{width:13px;height:13px}.me-push.on{border-style:solid;border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
+body.gated .picker{margin-top:14px}
+body.gated .top .nav,body.gated #miniFund,body.gated #v-me .section-title,body.gated #instBanner,body.gated #pushBanner{display:none!important}
+.gate{margin-top:14px}
+.gate h3{font-size:1.15rem;margin-bottom:4px}.gate .g-sub{color:var(--ink-2);font-size:.86rem;line-height:1.7;margin-bottom:12px}
+.g-step{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}.g-step b{display:block;font-size:.98rem;margin-bottom:4px}.g-step p{font-size:.82rem;color:var(--ink-2);line-height:1.7;margin-bottom:8px}
+.g-n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-weight:800}
+.g-step.done .g-n{background:var(--brand);color:#fff}.g-step.done b{color:var(--brand)}
+.g-step .btn{width:100%}.g-chg{display:block;margin:10px auto 0;background:none;border:0;color:var(--ink-3);font-size:.8rem;text-decoration:underline}
 .aw-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.aw-row b{display:block;font-size:.95rem}.aw-row small{display:block;color:var(--ink-3);font-size:.78rem;line-height:1.6;margin-top:2px}.aw-row input{width:22px;height:22px;accent-color:var(--brand);flex:none}
 .ps-sum{text-align:center;padding:6px 0 12px;font-size:.95rem}.ps-sum b{font-size:1.6rem;color:var(--brand);margin-left:4px}
 .ps-row{display:flex;justify-content:space-between;padding:9px 4px;border-bottom:1px solid var(--line);font-size:.9rem}.ps-row b{color:var(--ink-3);font-weight:600;font-size:.8rem}.ps-row.ok b{color:var(--good,#2e7d32)}
@@ -798,8 +806,38 @@ function openCalendar(){
       <a href="${ICS_URL}" target="_blank" rel="noopener" onclick="setTimeout(closeDlg,300)">${SV("cal")}<b>تقويم الآيفون</b><small>يفتح الملف ثم اضغط «إضافة الكل»</small></a>
     </div>`);
 }
+/* ======================= بوابة الدخول: تثبيت + إشعارات ======================= */
+let gateWait=true; setTimeout(()=>{gateWait=false; if(P()) renderMe();},8000);
+function gateOK(){ if(isAdmin||!pushHost()) return true; return isStandalone()&&pushState.on; }
+function applyGate(){
+  const g=!gateOK(); document.body.classList.toggle("gated",g);
+  if(g&&!$("v-me").classList.contains("on")) go("me");
+}
+function gateHtml(m){
+  const inst=isStandalone(), on=pushState.on, ios=isIOS(), ua=navigator.userAgent;
+  const inapp=/FBAN|FBAV|Instagram|WhatsApp|Snapchat|Line\/|; wv\)/i.test(ua);
+  const hasPush=("PushManager" in window)&&("Notification" in window);
+  const denied=hasPush&&Notification.permission==="denied";
+  if(inst&&!pushState.ready&&gateWait&&hasPush) return `<div class="card gate"><div class="empty">جاري التحقق…</div></div>`;
+  const step=(n,done,title,body)=>`<div class="g-step ${done?"done":""}"><span class="g-n">${done?"✓":n}</span><div><b>${title}</b>${done?"":body}</div></div>`;
+  let s1;
+  if(inapp) s1=`<p>أنت فاتح الرابط من داخل تطبيق (مثل الواتساب). افتحه في <b>${ios?"Safari":"Chrome"}</b>: اضغط ⋮ أو زر المشاركة واختر «فتح في المتصفح».</p><button class="btn btn-sec" onclick="navigator.clipboard&&navigator.clipboard.writeText(SITE_LINK);toast('تم نسخ الرابط')">نسخ رابط البوابة</button>`;
+  else if(LS.get("est_installed")) s1=`<p>البوابة مثبتة عندك ✓ افتحها من أيقونة <b>«الاستراحة»</b> في شاشة جوالك.</p>`;
+  else s1=`<p>${ios?"من Safari: زر المشاركة ⬆︎ ← «إضافة إلى الشاشة الرئيسية»، ثم افتحها من الأيقونة.":"ثبّتها كتطبيق، ثم افتحها من أيقونة «الاستراحة»."}</p><button class="btn btn-pri" onclick="installApp()">${SV("down")} ثبّت البوابة</button>`;
+  let s2;
+  if(!inst) s2=`<p>تتفعّل بعد ما تفتح البوابة من الأيقونة.</p>`;
+  else if(!hasPush) s2=`<p>${ios?"جوالك يحتاج تحديث iOS لنسخة 16.4 أو أحدث عشان الإشعارات.":"المتصفح ما يدعم الإشعارات، حدّث Chrome وحاول مرة ثانية."}</p>`;
+  else if(denied) s2=`<p>الإشعارات محظورة. افتح <b>الإعدادات</b> ← <b>الإشعارات</b> ← <b>الاستراحة</b> واسمح بها، ثم ارجع هنا.</p><button class="btn btn-sec" onclick="location.reload()">تحقّقت، حدّث الصفحة</button>`;
+  else s2=`<p>عشان يوصلك تذكير السداد وأخبار الاستراحة.</p><button class="btn btn-pri" onclick="enablePush()">${SV("bell")} فعّل الإشعارات</button>`;
+  return `<div class="card gate"><h3>أهلاً ${esc(m.name)} 👋</h3><p class="g-sub">عشان تشوف بطاقتك وكشف حسابك ورصيد الصندوق، كمّل الخطوتين:</p>
+    ${step(1,inst,"ثبّت البوابة على جوالك",s1)}${step(2,inst&&on,"فعّل الإشعارات",s2)}
+    <button class="g-chg" onclick="setMe('')">مو أنت؟ غيّر الاسم</button></div>`;
+}
 function renderMe(){
   const p=P(), name=LS.get("est_me"), m=p.members.find(x=>x.name===name), box=$("meBox");
+  if(isStandalone()) LS.set("est_installed","1");
+  applyGate();
+  if(m&&!gateOK()){ box.innerHTML=gateHtml(m); return; }
   if(!m){
     box.innerHTML=`<div class="card picker"><h3>أهلاً بك</h3><p>اختر اسمك مرة واحدة، وتظهر لك بطاقتك مباشرة في كل زيارة.</p>
       <div class="name-grid">${p.members.map(x=>`<button onclick="setMe('${jsq(x.name)}')">${esc(x.name)}</button>`).join("")}</div></div>`;
@@ -1779,7 +1817,7 @@ function hidePushBanner(){LS.set("est_push_hide","1");renderPushBanner()}
 function pushRefresh(){
   const was=pushState.on;
   try{ pushState.on=!!(window.OneSignal&&OneSignal.User.PushSubscription.optedIn&&OneSignal.Notifications.permission); }catch(e){ pushState.on=false; }
-  renderPushBanner(); if(was!==pushState.on&&typeof renderMe==="function") renderMe();
+  renderPushBanner(); if(was!==pushState.on&&typeof renderMe==="function"&&P()) renderMe();
 }
 if(pushSupported()){
   window.OneSignalDeferred=window.OneSignalDeferred||[];
@@ -1788,7 +1826,7 @@ if(pushSupported()){
       await OneSignal.init({appId:ONESIGNAL_APP_ID,safari_web_id:"web.onesignal.auto.54d60a3d-c0d7-4ae1-b490-c29a9cfa7b70",
         serviceWorkerPath:"estiraha/push/onesignal/OneSignalSDKWorker.js",serviceWorkerParam:{scope:"/estiraha/push/onesignal/"},
         notifyButton:{enable:false},promptOptions:{slidedown:{prompts:[]}},welcomeNotification:{disable:true}});
-      pushState.ready=true; pushRefresh(); pushLink();
+      pushState.ready=true; pushRefresh(); pushLink(); if(P()) renderMe();
       OneSignal.User.PushSubscription.addEventListener("change",pushRefresh);
       OneSignal.Notifications.addEventListener("permissionChange",pushRefresh);
     }catch(e){ console.warn("push init",e); }
